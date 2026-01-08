@@ -1,8 +1,20 @@
 const express = require('express');
 const path = require('path');
+const livereload = require('livereload');
+const connectLiveReload = require('connect-livereload');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// LiveReload - 僅在開發模式下啟用
+if (process.env.NODE_ENV !== 'production') {
+  const lrServer = livereload.createServer({
+    exts: ['html', 'css', 'js'],
+    delay: 100,
+  });
+  lrServer.watch(path.join(__dirname, 'public'));
+  app.use(connectLiveReload());
+}
 
 // 提供靜態文件
 app.use(express.static(path.join(__dirname, 'public')));
