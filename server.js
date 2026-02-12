@@ -17,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // 提供靜態文件
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 路由處理

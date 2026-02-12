@@ -1,249 +1,678 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NCTU 動畫社</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動畫社 | 國立陽明交通大學</title>
+  <meta name="description" content="國立陽明交通大學動畫社 — 114學年度新生招募中。鑑賞・交流・創作，一起深入動畫的世界。">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#C41E3A',
+            'brand-dark': '#9E1830',
+            'off-white': '#F9F9F9',
+            'dark': '#1A1A1A',
+            'mid': '#666666',
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'Inter', 'system-ui', 'sans-serif'],
+            display: ['Inter', '"Noto Sans TC"', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ── Global Reset ── */
+    * { border-radius: 0 !important; }
+    html { scroll-behavior: smooth; }
+    body { font-feature-settings: 'palt' 1; }
+
+    /* ── Circular avatar override ── */
+    .avatar-circle { border-radius: 50% !important; }
+
+    /* ── Gallery cell ── */
+    .gallery-item { position: relative; overflow: hidden; }
+    .gallery-item img {
+      filter: grayscale(100%);
+      transition: filter 0.5s ease, transform 0.5s ease;
+    }
+    .gallery-item:hover img {
+      filter: grayscale(0%);
+      transform: scale(1.08);
+    }
+    .gallery-item .overlay {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 60%);
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+
+    /* ── Button: outline → fill ── */
+    .btn-fill {
+      position: relative; overflow: hidden; z-index: 1;
+      border: 2px solid #C41E3A; color: #C41E3A;
+      transition: color 0.35s ease;
+    }
+    .btn-fill::before {
+      content: ''; position: absolute; inset: 0;
+      background: #C41E3A; z-index: -1;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .btn-fill:hover::before { transform: scaleX(1); }
+    .btn-fill:hover { color: #fff; }
+
+    /* ── Nav link underline ── */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute;
+      bottom: -2px; left: 0; width: 0; height: 2px;
+      background: #C41E3A; transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ── Join-step connector ── */
+    .step-line { position: relative; }
+    .step-line::before {
+      content: ''; position: absolute;
+      left: 15px; top: 36px; bottom: -12px;
+      width: 1px; background: rgba(255,255,255,0.2);
+    }
+    .step-line:last-child::before { display: none; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #F9F9F9; }
+    ::-webkit-scrollbar-thumb { background: #ccc; }
+    ::-webkit-scrollbar-thumb:hover { background: #999; }
+  </style>
 </head>
-<body>
-    <!-- 導航欄 -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-star"></i>
-                <span>NCTU 動畫社</span>
+
+<body class="bg-white text-dark antialiased">
+
+<!-- ════════════════════════════════════════════════════════════
+     NAVIGATION
+     ════════════════════════════════════════════════════════════ -->
+<nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200" id="nav">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Brand -->
+    <a href="#hero" class="flex items-center gap-3">
+      <span class="text-brand font-bold text-lg tracking-tight">動畫社</span>
+      <span class="hidden sm:inline text-[10px] text-mid tracking-[0.25em] font-display uppercase">NCTU Animation Club</span>
+    </a>
+
+    <!-- Desktop Links -->
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="#activity" class="nav-link text-dark/70 hover:text-dark transition-colors">活動介紹</a>
+      <a href="#topics"   class="nav-link text-dark/70 hover:text-dark transition-colors">社課主題</a>
+      <a href="#gallery"  class="nav-link text-dark/70 hover:text-dark transition-colors">活動紀錄</a>
+      <a href="#officers" class="nav-link text-dark/70 hover:text-dark transition-colors">幹部介紹</a>
+      <a href="#contact"  class="btn-fill px-5 py-2 text-xs font-semibold tracking-wider uppercase">加入我們</a>
+    </div>
+
+    <!-- Mobile Burger -->
+    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center gap-1.5" aria-label="選單">
+      <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml1"></span>
+      <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml2"></span>
+      <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml3"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-100">
+    <div class="px-6 py-6 flex flex-col gap-4 text-sm font-medium">
+      <a href="#activity" class="mob-link text-dark/70 hover:text-dark py-2">活動介紹</a>
+      <a href="#topics"   class="mob-link text-dark/70 hover:text-dark py-2">社課主題</a>
+      <a href="#gallery"  class="mob-link text-dark/70 hover:text-dark py-2">活動紀錄</a>
+      <a href="#officers" class="mob-link text-dark/70 hover:text-dark py-2">幹部介紹</a>
+      <a href="#contact"  class="mob-link btn-fill inline-block px-5 py-3 text-xs font-semibold tracking-wider uppercase text-center mt-2">加入我們</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════════════════════ -->
+<section id="hero" class="min-h-screen bg-white flex items-center pt-16">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center py-16 lg:py-0">
+
+      <!-- Left: Typography -->
+      <div class="lg:col-span-5 space-y-6 lg:space-y-8">
+        <div>
+          <p class="text-brand text-xs font-semibold tracking-[0.2em] uppercase font-display mb-6">
+            2026 新生招募
+          </p>
+          <h1 class="text-6xl sm:text-7xl lg:text-[5.5rem] xl:text-8xl font-black tracking-tight leading-[0.92]">
+            動畫社
+          </h1>
+          <p class="text-[11px] tracking-[0.3em] text-mid mt-4 font-display font-medium uppercase">
+            NCTU Animation Club
+          </p>
+        </div>
+        <p class="text-dark/55 text-[15px] leading-[1.85] max-w-md">
+          我們是由一群喜好動畫、東方、日麻、桌遊、女聲優的人所組成的同好會。<br>
+          如果你也喜歡這些美好的事物，歡迎你加入動畫社與我們一同交流。
+        </p>
+        <div class="flex gap-5 items-center pt-2">
+          <a href="#contact" class="btn-fill px-8 py-3.5 text-sm font-bold tracking-wider">
+            加入我們
+          </a>
+          <a href="#activity" class="text-sm text-mid hover:text-dark transition-colors font-medium">
+            了解更多 →
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Hero Image -->
+      <div class="lg:col-span-7 flex items-center justify-center bg-off-white">
+        <img
+          src="/images/114迎新.jpg"
+          alt="動畫社迎新活動"
+          class="w-full h-auto object-contain"
+        >
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     ACTIVITY — 三大核心
+     ════════════════════════════════════════════════════════════ -->
+<section id="activity" class="bg-off-white py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="mb-16 lg:mb-20">
+      <p class="text-[11px] tracking-[0.3em] text-mid font-display font-medium uppercase mb-2">Activity</p>
+      <h2 class="text-3xl lg:text-4xl font-bold tracking-tight">活動介紹</h2>
+      <div class="w-12 h-[2px] bg-brand mt-4"></div>
+    </div>
+
+    <!-- 3-Column Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
+
+      <!-- 01 鑑賞 -->
+      <div class="relative p-8 lg:p-10 border-t-2 border-dark/10 md:border-r md:border-r-dark/10">
+        <span class="font-display text-[5rem] lg:text-[7rem] font-extrabold text-dark/[0.04] leading-none absolute top-2 left-6 select-none pointer-events-none">01</span>
+        <div class="relative">
+          <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display uppercase mb-3">Appreciation</p>
+          <h3 class="text-xl font-bold mb-4">鑑賞</h3>
+          <p class="text-sm text-dark/55 leading-[1.85]">
+            從分鏡畫面、鏡頭語言、到音樂編曲、幕後製作，深挖經典作品，不只是愛好，更培養動畫鑑賞的品味。
+          </p>
+        </div>
+      </div>
+
+      <!-- 02 交流 -->
+      <div class="relative p-8 lg:p-10 border-t-2 border-dark/10 md:border-r md:border-r-dark/10">
+        <span class="font-display text-[5rem] lg:text-[7rem] font-extrabold text-dark/[0.04] leading-none absolute top-2 left-6 select-none pointer-events-none">02</span>
+        <div class="relative">
+          <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display uppercase mb-3">Exchange</p>
+          <h3 class="text-xl font-bold mb-4">交流</h3>
+          <p class="text-sm text-dark/55 leading-[1.85]">
+            固定每周社課邀請講者分享各自深入研究的領域，並舉辦主題放映與討論，促進社內交流分享風氣。
+          </p>
+        </div>
+      </div>
+
+      <!-- 03 創作 -->
+      <div class="relative p-8 lg:p-10 border-t-2 border-dark/10">
+        <span class="font-display text-[5rem] lg:text-[7rem] font-extrabold text-dark/[0.04] leading-none absolute top-2 left-6 select-none pointer-events-none">03</span>
+        <div class="relative">
+          <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display uppercase mb-3">Creation</p>
+          <h3 class="text-xl font-bold mb-4">創作</h3>
+          <p class="text-sm text-dark/55 leading-[1.85]">
+            每年創作社刊，以文字或圖片呈現動畫相關主題，鼓勵社員不只有被動觀看動畫，也能主動創作與分享。
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     TOPICS — 精彩社課主題
+     ════════════════════════════════════════════════════════════ -->
+<section id="topics" class="py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="mb-16 lg:mb-20">
+      <p class="text-[11px] tracking-[0.3em] text-mid font-display font-medium uppercase mb-2">Topics</p>
+      <h2 class="text-3xl lg:text-4xl font-bold tracking-tight">精彩社課主題</h2>
+      <div class="w-12 h-[2px] bg-brand mt-4"></div>
+    </div>
+
+    <!-- Topic 01 -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 border-t border-dark/10">
+      <div class="lg:col-span-3 flex flex-col justify-center py-8 lg:py-12 lg:pr-12 px-4 lg:pl-8">
+        <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display mb-3">推坑社課</p>
+        <h3 class="text-lg lg:text-xl font-bold mb-3">《LoveLive!》系列推坑</h3>
+        <p class="text-sm text-dark/55 leading-[1.85]">
+          集合三位社員過去在動畫社分享過的精采內容，在一堂課的有限時間內，向各位介紹《LoveLive!》這個歷經十五年，曾經盛極一時、為ACGN領域留下深遠影響的IP。
+        </p>
+      </div>
+      <div class="lg:col-span-2 flex items-center bg-off-white">
+        <img src="/images/class/01.png" alt="LoveLive 社課主題宣傳圖" class="w-full h-auto object-contain">
+      </div>
+    </div>
+
+    <!-- Topic 02 -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 border-t border-dark/10 bg-off-white">
+      <div class="lg:col-span-3 flex flex-col justify-center py-8 lg:py-12 lg:pr-12 px-4 lg:pl-8">
+        <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display mb-3">動畫幕後</p>
+        <h3 class="text-lg lg:text-xl font-bold mb-3">透過《白箱》淺談動畫製作流程</h3>
+        <p class="text-sm text-dark/55 leading-[1.85]">
+          動畫的製作流程可以說被分工到了極致。原畫、作畫監督、上色、攝影……你或許好奇每個職位具體的工作內容是什麼，以及為什麼需要這樣的分工？這種分工有哪些優點和缺點呢？
+        </p>
+      </div>
+      <div class="lg:col-span-2 flex items-center">
+        <img src="/images/class/02.png" alt="白箱社課主題宣傳圖" class="w-full h-auto object-contain">
+      </div>
+    </div>
+
+    <!-- Topic 03 -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 border-t border-dark/10">
+      <div class="lg:col-span-3 flex flex-col justify-center py-8 lg:py-12 lg:pr-12 px-4 lg:pl-8">
+        <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display mb-3">MAD 簡介</p>
+        <h3 class="text-lg lg:text-xl font-bold mb-3">MAD 簡介及製作入門</h3>
+        <p class="text-sm text-dark/55 leading-[1.85]">
+          MAD，作為交大動畫社神聖不可分割的一部分，同時也是本社可以苟活在學藝性社團這個分類下的理由。本堂社課簡單介紹 MAD 的發展歷程以及製作工具，讓有興趣卻不知道怎麼開始的人掌握基本技巧。
+        </p>
+      </div>
+      <div class="lg:col-span-2 flex items-center bg-off-white">
+        <img src="/images/class/03.png" alt="MAD 社課主題宣傳圖" class="w-full h-auto object-contain">
+      </div>
+    </div>
+
+    <!-- Topic 04 -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 border-t border-dark/10 bg-off-white">
+      <div class="lg:col-span-3 flex flex-col justify-center py-8 lg:py-12 lg:pr-12 px-4 lg:pl-8">
+        <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display mb-3">現地文化</p>
+        <h3 class="text-lg lg:text-xl font-bold mb-3">日本現地演唱會攻略</h3>
+        <p class="text-sm text-dark/55 leading-[1.85]">
+          這堂社課我們彙整了所有參加日本現地演唱會需要做的所有準備，包含抽選流程、付款方式、取票流程及其他需要注意的事項，希望能幫助你順利踏出參加現地活動的第一步。
+        </p>
+      </div>
+      <div class="lg:col-span-2 flex items-center">
+        <img src="/images/class/04.png" alt="日本現地演唱會攻略社課主題宣傳圖" class="w-full h-auto object-contain">
+      </div>
+    </div>
+
+    <!-- Topic 05 -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 border-t border-dark/10 border-b border-b-dark/10">
+      <div class="lg:col-span-3 flex flex-col justify-center py-8 lg:py-12 lg:pr-12 px-4 lg:pl-8">
+        <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display mb-3">演出分析</p>
+        <h3 class="text-lg lg:text-xl font-bold mb-3">《莉茲與青鳥》演出賞析</h3>
+        <p class="text-sm text-dark/55 leading-[1.85]">
+          監督山田尚子用幾近偏執的鏡頭語言，將兩位少女的焦慮與依戀，拆解成無數個細碎的眼神與肢體動作。我們將跳脫單純的劇情討論，示範如何從鏡頭與聲音的細節切入，帶領大家看見那些沒說出口、卻震耳欲聾的深層隱喻。
+        </p>
+      </div>
+      <div class="lg:col-span-2 flex items-center bg-off-white">
+        <img src="/images/class/05.png" alt="莉茲與青鳥演出賞析社課主題宣傳圖" class="w-full h-auto object-contain">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     GALLERY — 活動紀錄剪影
+     ════════════════════════════════════════════════════════════ -->
+<section id="gallery" class="bg-off-white py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="mb-16 lg:mb-20">
+      <p class="text-[11px] tracking-[0.3em] text-mid font-display font-medium uppercase mb-2">Gallery</p>
+      <h2 class="text-3xl lg:text-4xl font-bold tracking-tight">活動紀錄剪影</h2>
+      <div class="w-12 h-[2px] bg-brand mt-4"></div>
+    </div>
+
+    <!-- Photo Grid — 1px gap simulated via bg color -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-dark/10">
+
+      <div class="gallery-item aspect-square bg-white">
+        <img src="/images/114迎新.jpg" alt="114迎新" class="w-full h-full object-cover">
+        <div class="overlay absolute inset-0 flex items-end p-4">
+          <div>
+            <p class="text-white text-sm font-bold">迎新活動</p>
+            <p class="text-white/60 text-xs font-display">2025.09</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item aspect-square bg-white">
+        <img src="/images/114運動會擺攤.jpg" alt="114運動會擺攤" class="w-full h-full object-cover">
+        <div class="overlay absolute inset-0 flex items-end p-4">
+          <div>
+            <p class="text-white text-sm font-bold">運動會擺攤</p>
+            <p class="text-white/60 text-xs font-display">2025.10</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item aspect-square bg-white">
+        <img src="/images/114校慶擺攤.jpg" alt="114校慶擺攤" class="w-full h-full object-cover">
+        <div class="overlay absolute inset-0 flex items-end p-4">
+          <div>
+            <p class="text-white text-sm font-bold">校慶擺攤</p>
+            <p class="text-white/60 text-xs font-display">2025.02</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item aspect-square bg-white">
+        <img src="/images/114上歌謠祭.jpg" alt="114上歌謠祭" class="w-full h-full object-cover">
+        <div class="overlay absolute inset-0 flex items-end p-4">
+          <div>
+            <p class="text-white text-sm font-bold">動漫周歌謠祭</p>
+            <p class="text-white/60 text-xs font-display">2025.11</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item aspect-square bg-white">
+        <img src="/images/114前夜祭.jpg" alt="114前夜祭" class="w-full h-full object-cover">
+        <div class="overlay absolute inset-0 flex items-end p-4">
+          <div>
+            <p class="text-white text-sm font-bold">動漫周前夜祭</p>
+            <p class="text-white/60 text-xs font-display">2025.11</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item aspect-square bg-white">
+        <img src="/images/FF44擺攤.jpg" alt="FF44擺攤" class="w-full h-full object-cover">
+        <div class="overlay absolute inset-0 flex items-end p-4">
+          <div>
+            <p class="text-white text-sm font-bold">FF44 擺攤</p>
+            <p class="text-white/60 text-xs font-display">2025.02</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item aspect-square bg-white">
+        <img src="/images/FF45擺攤.jpg" alt="FF45擺攤" class="w-full h-full object-cover">
+        <div class="overlay absolute inset-0 flex items-end p-4">
+          <div>
+            <p class="text-white text-sm font-bold">FF45 擺攤</p>
+            <p class="text-white/60 text-xs font-display">2025.08</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item aspect-square bg-white">
+        <img src="/images/刺台北花籃.jpg" alt="CWT 花籃應援" class="w-full h-full object-cover">
+        <div class="overlay absolute inset-0 flex items-end p-4">
+          <div>
+            <p class="text-white text-sm font-bold">刺台北花籃</p>
+            <p class="text-white/60 text-xs font-display">2025.08</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     OFFICERS — 幹部介紹
+     ════════════════════════════════════════════════════════════ -->
+<section id="officers" class="py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="mb-16 lg:mb-20">
+      <p class="text-[11px] tracking-[0.3em] text-mid font-display font-medium uppercase mb-2">Officers</p>
+      <h2 class="text-3xl lg:text-4xl font-bold tracking-tight">本屆幹部介紹</h2>
+      <div class="w-12 h-[2px] bg-brand mt-4"></div>
+    </div>
+
+    <!-- Officers List -->
+    <div class="border-t border-dark/10">
+
+      <!-- 社長 -->
+      <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_2fr] gap-6 py-8 px-2 lg:px-0 border-b border-dark/10">
+        <div class="flex items-start justify-center">
+          <div class="w-20 h-20 bg-off-white border border-dark/10 overflow-hidden flex items-center justify-center avatar-circle">
+            <img src="/images/profile/rina.webp" alt="社長頭像" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div>
+          <p class="text-[10px] tracking-[0.2em] text-mid font-display uppercase mb-1">President — 社長</p>
+          <h4 class="text-lg font-bold">企鵝</h4>
+          <p class="text-xs text-dark/40 mt-1">系級欄位</p>
+        </div>
+        <div class="flex items-center">
+          <p class="text-sm text-dark/55 leading-[1.85]">請大家自己寫自介。</p>
+        </div>
+      </div>
+
+      <!-- 副社長 -->
+      <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_2fr] gap-6 py-8 px-2 lg:px-0 border-b border-dark/10 bg-off-white">
+        <div class="flex items-start justify-center">
+          <div class="w-20 h-20 bg-white border border-dark/10 overflow-hidden flex items-center justify-center avatar-circle">
+            <img src="/images/profile/rina.webp" alt="副社長頭像" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div>
+          <p class="text-[10px] tracking-[0.2em] text-mid font-display uppercase mb-1">Vice President — 副社長</p>
+          <h4 class="text-lg font-bold">撒咖那</h4>
+          <p class="text-xs text-dark/40 mt-1">系級欄位</p>
+        </div>
+        <div class="flex items-center">
+          <p class="text-sm text-dark/55 leading-[1.85]">請大家自己寫自介。</p>
+        </div>
+      </div>
+
+      <!-- 總務 -->
+      <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_2fr] gap-6 py-8 px-2 lg:px-0 border-b border-dark/10">
+        <div class="flex items-start justify-center">
+          <div class="w-20 h-20 bg-off-white border border-dark/10 overflow-hidden flex items-center justify-center avatar-circle">
+            <img src="/images/profile/rina.webp" alt="總務頭像" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div>
+          <p class="text-[10px] tracking-[0.2em] text-mid font-display uppercase mb-1">General Affairs — 總務</p>
+          <h4 class="text-lg font-bold">冠位非洲人</h4>
+          <p class="text-xs text-dark/40 mt-1">系級欄位</p>
+        </div>
+        <div class="flex items-center">
+          <p class="text-sm text-dark/55 leading-[1.85]">請大家自己寫自介。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     CONTACT — 聯繫我們
+     ════════════════════════════════════════════════════════════ -->
+<section id="contact" class="bg-dark text-white py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+
+      <!-- Left: Info + Process -->
+      <div>
+        <p class="text-[11px] tracking-[0.3em] text-white/40 font-display font-medium uppercase mb-2">Contact</p>
+        <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-4">聯繫我們</h2>
+        <div class="w-12 h-[2px] bg-brand mb-10"></div>
+
+        <!-- Quick Info -->
+        <div class="space-y-6 mb-12">
+          <div>
+            <p class="text-[10px] text-white/35 font-display uppercase tracking-wider mb-1">Facebook</p>
+            <a href="https://www.facebook.com/NCTUanime" target="_blank" rel="noopener"
+               class="text-white hover:text-brand transition-colors text-sm font-medium">
+              國立陽明交通大學動畫社 — FB 粉絲專頁 ↗
+            </a>
+          </div>
+          <div>
+            <p class="text-[10px] text-white/35 font-display uppercase tracking-wider mb-1">Discord</p>
+            <p class="text-white/60 text-sm">入社後將獲邀加入專屬 Discord 伺服器</p>
+          </div>
+          <div>
+            <p class="text-[10px] text-white/35 font-display uppercase tracking-wider mb-1">Location</p>
+            <p class="text-white/60 text-sm">社辦位置：學生活動中心 5F / 527 室</p>
+            <p class="text-white/60 text-sm mt-1">開放時間：每日 10:00 ~ 22:00</p>
+          </div>
+        </div>
+
+        <!-- Join Process -->
+        <div>
+          <h3 class="text-lg font-bold mb-6">入社流程</h3>
+          <div class="space-y-5">
+
+            <div class="flex gap-4 step-line">
+              <div class="flex-shrink-0 w-8 h-8 bg-brand flex items-center justify-center">
+                <span class="text-white text-xs font-bold font-display">1</span>
+              </div>
+              <div class="pt-0.5">
+                <p class="text-sm font-medium">透過粉專聯繫社團幹部</p>
+                <p class="text-xs text-white/35 mt-1">至 Facebook 粉專私訊，我們將盡快回覆！</p>
+              </div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">首頁</a></li>
-                <li><a href="#about" class="nav-link">關於我們</a></li>
-                <li><a href="#activities" class="nav-link">社團活動</a></li>
-                <li><a href="#members" class="nav-link">幹部介紹</a></li>
-                <li><a href="#contact" class="nav-link">聯絡我們</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+
+            <div class="flex gap-4 step-line">
+              <div class="flex-shrink-0 w-8 h-8 bg-brand flex items-center justify-center">
+                <span class="text-white text-xs font-bold font-display">2</span>
+              </div>
+              <div class="pt-0.5">
+                <p class="text-sm font-medium">於社辦或活動攤位上繳交社費</p>
+                <p class="text-xs text-white/35 mt-1">社費涵蓋學期課程、社刊與活動參與。</p>
+              </div>
             </div>
-        </div>
-    </nav>
 
-    <!-- 首頁 Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 class="hero-title animate-fade-in">歡迎來到 NCTU 動畫社</h1>
-            <p class="hero-subtitle animate-fade-in-delay">我們是由一群喜好動畫、東方、日麻、卡片遊戲、女聲優的人們組成的同好會<br>如果你也喜歡這些美好的事物，歡迎你加入動畫社與我們一同交流</p>
-            <a href="#about" class="cta-button animate-fade-in-delay-2">了解更多</a>
-        </div>
-        <div class="scroll-indicator">
-            <i class="fas fa-chevron-down"></i>
-        </div>
-    </section>
-
-    <!-- 關於我們 -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">關於我們</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p class="intro-text">
-                        NCTU 動畫社成立於 1992 年，是校內最具歷史的學生社團之一。
-                    </p>
-                    <div class="features">
-                        <div class="feature-card">
-                            <i class="fas fa-users"></i>
-                            <h3>社群交流</h3>
-                            <p>與來自各系所的二次元愛好者交流</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-film"></i>
-                            <h3>影片欣賞</h3>
-                            <p>定期舉辦動畫放映會和討論活動</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-palette"></i>
-                            <h3>創作分享</h3>
-                            <p>展示同人創作、Cosplay 等才藝</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-calendar-alt"></i>
-                            <h3>精彩活動</h3>
-                            <p>舉辦各種主題社課和校外參訪</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex gap-4 step-line">
+              <div class="flex-shrink-0 w-8 h-8 bg-brand flex items-center justify-center">
+                <span class="text-white text-xs font-bold font-display">3</span>
+              </div>
+              <div class="pt-0.5">
+                <p class="text-sm font-medium">於交大單一入口網登記成為社員</p>
+                <p class="text-xs text-white/35 mt-1">完成校方正式登記程序。</p>
+              </div>
             </div>
-        </div>
-    </section>
 
-    <!-- 社團活動 -->
-    <section id="activities" class="activities">
-        <div class="container">
-            <h2 class="section-title">社團活動</h2>
-            <div class="activities-grid">
-                <div class="activity-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-tv"></i>
-                    </div>
-                    <h3>每週放映會</h3>
-                    <p>每週三晚上 7:00 - 9:00</p>
-                    <p class="activity-desc">與社員一起欣賞最新動畫，分享心得與討論劇情</p>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <h3>電玩大會</h3>
-                    <p>每月第一個週六</p>
-                    <p class="activity-desc">各種動漫主題遊戲對戰，豐富獎品等你拿</p>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-paint-brush"></i>
-                    </div>
-                    <h3>同人創作展</h3>
-                    <p>每學期末</p>
-                    <p class="activity-desc">展示社員創作的漫畫、插畫、小說等作品</p>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-mask"></i>
-                    </div>
-                    <h3>Cosplay 聚會</h3>
-                    <p>不定期舉辦</p>
-                    <p class="activity-desc">扮演喜愛的動漫角色，進行攝影與交流</p>
-                </div>
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-8 h-8 bg-brand flex items-center justify-center">
+                <span class="text-white text-xs font-bold font-display">4</span>
+              </div>
+              <div class="pt-0.5">
+                <p class="text-sm font-medium">加入專屬 Discord 與 FB 社群</p>
+                <p class="text-xs text-white/35 mt-1">獲得最即時的社團資訊與討論空間。</p>
+              </div>
             </div>
+
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- 幹部介紹 -->
-    <section id="members" class="members">
-        <div class="container">
-            <h2 class="section-title">幹部介紹</h2>
-            <p class="section-subtitle">第十八屆幹部團隊</p>
-            <div class="members-grid">
-                <div class="member-card">
-                    <div class="member-image">
-                        <div class="avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h3>企鵝</h3>
-                        <p class="position">社長</p>
-                        <p class="department">資訊工程系</p>
-                        <p class="description">這裡還不知道要寫什麼好</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-image">
-                        <div class="avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h3>李小華</h3>
-                        <p class="position">副社長</p>
-                        <p class="department">這裡還不知道要寫什麼系</p>
-                        <p class="description">這裡還不知道要寫什麼好</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-image">
-                        <div class="avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h3>張小芳</h3>
-                        <p class="position">總務</p>
-                        <p class="department">這裡還不知道要寫什麼系</p>
-                        <p class="description">這裡還不知道要寫什麼好</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- Right: Map Placeholder + CTA -->
+      <div class="flex flex-col">
+        <!-- Map Area -->
+        <div class="bg-white/[0.04] border border-white/10 flex-1 min-h-[360px] lg:min-h-0 overflow-hidden">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1828.64605970973!2d121.0001622171051!3d24.786821319700003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346836103d874f33%3A0x78aa91b799b32d27!2z5ZyL56uL6Zm95piO5Lqk6YCa5aSn5a24IOWtuOeUn-a0u-WLleS4reW_gw!5e0!3m2!1szh-TW!2stw!4v1770878067719!5m2!1szh-TW!2stw"
+            class="w-full h-full border-0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
         </div>
-    </section>
 
-    <!-- 聯絡我們 -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">聯絡我們</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h3>社團辦公室</h3>
-                            <p>新竹市大學路 1001 號</p>
-                            <p>學生活動中心 3F-302</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h3>Email</h3>
-                            <p>nctu.anime@club.org.tw</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h3>聯絡電話</h3>
-                            <p>(03) 5712-1234 ext. 5678</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <h3>開放時間</h3>
-                            <p>週一至週五 18:00 - 21:00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="social-media">
-                <h3>關注我們</h3>
-                <div class="social-icons">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
+        <!-- Call to Action Bar -->
+        <a href="https://www.facebook.com/NCTUanime" target="_blank" rel="noopener"
+           class="block bg-brand hover:bg-brand-dark transition-colors text-center py-5">
+          <span class="text-white text-sm font-bold tracking-wider">立即聯繫，加入動畫社 →</span>
+        </a>
+      </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 NCTU 動畫社. All Rights Reserved.</p>
-            <p>Made with <i class="fas fa-heart"></i> by NCTU Anime Club</p>
-        </div>
-    </footer>
+    </div>
+  </div>
+</section>
 
-    <script src="js/script.js"></script>
+
+<!-- ════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════ -->
+<footer class="bg-[#111] text-white/35 py-8">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-xs font-display">NCTU Animation Club © 2026</p>
+    <div class="flex gap-6 text-xs">
+      <a href="https://www.facebook.com/NCTUanime" target="_blank" rel="noopener" class="hover:text-white transition-colors">Facebook</a>
+      <a href="#" class="hover:text-white transition-colors">Discord</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     SCRIPTS
+     ════════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Mobile menu toggle ── */
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const ml1 = document.getElementById('ml1');
+  const ml2 = document.getElementById('ml2');
+  const ml3 = document.getElementById('ml3');
+  let menuOpen = false;
+
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('hidden');
+    if (menuOpen) {
+      ml1.style.transform = 'rotate(45deg) translate(3px, 3px)';
+      ml2.style.opacity = '0';
+      ml3.style.transform = 'rotate(-45deg) translate(3px, -3px)';
+    } else {
+      ml1.style.transform = '';
+      ml2.style.opacity = '';
+      ml3.style.transform = '';
+    }
+  });
+
+  /* Close mobile menu on link click */
+  document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuOpen = false;
+      ml1.style.transform = '';
+      ml2.style.opacity = '';
+      ml3.style.transform = '';
+    });
+  });
+
+  /* ── Nav shadow on scroll ── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('shadow-sm', window.scrollY > 50);
+  }, { passive: true });
+</script>
+
 </body>
 </html>
