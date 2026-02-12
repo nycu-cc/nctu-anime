@@ -1,4 +1,6 @@
-# NCTU 動漫社 網站DEMO
+# NCTU 動畫社 網站
 
-使用 Express.js 搭建的現代化社團單頁式網站。
-就是個demo而已。
+就是個網站而已。
+
+Contributed By ~~冠位非洲人~~ Claude Opus 4.6
+Powered By かなりあ
