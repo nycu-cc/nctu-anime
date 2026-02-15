@@ -16,6 +16,7 @@
 
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -34,6 +35,16 @@
     }
   </script>
 
+  <script>
+    // Apply saved / system theme before first paint to prevent flash
+    (function(){
+      var s = localStorage.getItem('theme');
+      if (s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
   <style>
     /* ── Global Reset ── */
     * { border-radius: 0 !important; }
@@ -44,21 +55,66 @@
     .avatar-circle { border-radius: 50% !important; }
 
     /* ── Gallery cell ── */
-    .gallery-item { position: relative; overflow: hidden; }
+    .gallery-item { position: relative; overflow: hidden; cursor: pointer; }
     .gallery-item img {
       filter: grayscale(100%);
       transition: filter 0.5s ease, transform 0.5s ease;
     }
     .gallery-item:hover img {
       filter: grayscale(0%);
-      transform: scale(1.08);
+      transform: scale(1.05);
     }
-    .gallery-item .overlay {
-      opacity: 0;
+
+    /* ── Lightbox modal ── */
+    .lightbox-backdrop {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.3s ease;
-      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 60%);
     }
-    .gallery-item:hover .overlay { opacity: 1; }
+    .lightbox-backdrop.active { opacity: 1; pointer-events: auto; }
+    .lightbox-card {
+      position: relative;
+      background: #fff;
+      max-width: 900px; width: 92vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    }
+    html.dark .lightbox-card { background: #1a1a1a; }
+    .lightbox-card img {
+      display: block; width: 100%; height: auto;
+    }
+    .lightbox-info {
+      padding: 1.5rem 2rem 2rem;
+    }
+    .lightbox-title {
+      font-size: 1.25rem; font-weight: 700;
+      color: #1A1A1A;
+    }
+    html.dark .lightbox-title { color: #E5E5E5; }
+    .lightbox-date {
+      font-size: 0.75rem; color: #999;
+      margin-top: 0.25rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .lightbox-desc {
+      font-size: 0.875rem; color: rgba(26,26,26,0.55);
+      line-height: 1.85; margin-top: 0.75rem;
+    }
+    html.dark .lightbox-desc { color: rgba(229,229,229,0.55); }
+    .lightbox-close {
+      position: absolute; top: 12px; right: 12px;
+      width: 36px; height: 36px;
+      background: rgba(0,0,0,0.5); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; cursor: pointer;
+      transition: background 0.2s ease;
+      z-index: 1; border: none; line-height: 1;
+    }
+    .lightbox-close:hover { background: rgba(0,0,0,0.75); }
 
     /* ── Button: outline → fill ── */
     .btn-fill {
@@ -98,6 +154,54 @@
     ::-webkit-scrollbar-track { background: #F9F9F9; }
     ::-webkit-scrollbar-thumb { background: #ccc; }
     ::-webkit-scrollbar-thumb:hover { background: #999; }
+
+    /* ── Dark Mode ── */
+    html.dark { color-scheme: dark; }
+
+    /* Backgrounds */
+    html.dark .bg-white { background-color: #111 !important; }
+    html.dark .bg-off-white { background-color: #181818 !important; }
+    html.dark .bg-white\/95 { background-color: rgba(17,17,17,0.95) !important; }
+
+    /* Text */
+    html.dark .text-dark { color: #E5E5E5 !important; }
+    html.dark .text-dark\/70 { color: rgba(229,229,229,0.7) !important; }
+    html.dark .text-dark\/55 { color: rgba(229,229,229,0.55) !important; }
+    html.dark .text-dark\/40 { color: rgba(229,229,229,0.4) !important; }
+    html.dark .text-dark\/\[0\.04\] { color: rgba(255,255,255,0.04) !important; }
+    html.dark .text-mid { color: #999 !important; }
+
+    /* Borders */
+    html.dark .border-gray-200 { border-color: rgba(255,255,255,0.08) !important; }
+    html.dark .border-gray-100 { border-color: rgba(255,255,255,0.06) !important; }
+    html.dark .border-dark\/10 { border-color: rgba(255,255,255,0.08) !important; }
+    html.dark .border-b-dark\/10 { border-bottom-color: rgba(255,255,255,0.08) !important; }
+    html.dark .md\:border-r-dark\/10 { border-right-color: rgba(255,255,255,0.08) !important; }
+
+    /* Gallery grid gap simulation */
+    html.dark .bg-dark\/10 { background-color: rgba(255,255,255,0.08) !important; }
+
+    /* Mobile menu */
+    html.dark #mobileMenu { background-color: #111 !important; border-color: rgba(255,255,255,0.06) !important; }
+    html.dark #ml1, html.dark #ml2, html.dark #ml3 { background-color: #E5E5E5 !important; }
+
+    /* Officer avatar border */
+    html.dark .avatar-circle { border-color: rgba(255,255,255,0.1) !important; }
+
+    /* Map iframe in dark mode */
+    html.dark #contact iframe { filter: invert(0.9) hue-rotate(180deg); }
+
+    /* Dark scrollbar */
+    html.dark ::-webkit-scrollbar-track { background: #111; }
+    html.dark ::-webkit-scrollbar-thumb { background: #444; }
+    html.dark ::-webkit-scrollbar-thumb:hover { background: #666; }
+
+    /* Theme toggle hover */
+    .theme-toggle { cursor: pointer; }
+    
+    /* Dark mode: make toggle button more visible */
+    html.dark .theme-toggle { color: rgba(229,229,229,0.7) !important; }
+    html.dark .theme-toggle:hover { color: rgba(229,229,229,1) !important; }
   </style>
 </head>
 
@@ -119,15 +223,25 @@
       <a href="#topics"   class="nav-link text-dark/70 hover:text-dark transition-colors">往期內容</a>
       <a href="#gallery"  class="nav-link text-dark/70 hover:text-dark transition-colors">活動剪影</a>
       <a href="#officers" class="nav-link text-dark/70 hover:text-dark transition-colors">幹部介紹</a>
+      <button class="theme-toggle w-8 h-8 flex items-center justify-center text-dark/60 hover:text-dark transition-colors" aria-label="切換夜間模式">
+        <svg class="icon-moon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg class="icon-sun w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      </button>
       <a href="#contact"  class="btn-fill px-5 py-2 text-xs font-semibold tracking-wider uppercase">加入我們</a>
     </div>
 
-    <!-- Mobile Burger -->
-    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center gap-1.5" aria-label="選單">
-      <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml1"></span>
-      <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml2"></span>
-      <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml3"></span>
-    </button>
+    <!-- Mobile Controls -->
+    <div class="flex items-center gap-2 md:hidden">
+      <button class="theme-toggle w-8 h-8 flex items-center justify-center text-dark/60 hover:text-dark transition-colors" aria-label="切換夜間模式">
+        <svg class="icon-moon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg class="icon-sun w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      </button>
+      <button id="menuBtn" class="w-8 h-8 flex flex-col justify-center items-center gap-1.5" aria-label="選單">
+        <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml1"></span>
+        <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml2"></span>
+        <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml3"></span>
+      </button>
+    </div>
   </div>
 
   <!-- Mobile Drawer -->
@@ -359,90 +473,71 @@
       <div class="w-12 h-[2px] bg-brand mt-4"></div>
     </div>
 
-    <!-- Photo Grid — 1px gap simulated via bg color -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-dark/10">
+    <!-- Photo Grid -->
+    <div class="flex flex-wrap gap-[1px]">
 
-      <div class="gallery-item aspect-square bg-white">
+      <div class="gallery-item aspect-square bg-white w-[calc(50%_-_0.5px)] md:w-[calc(25%_-_0.75px)]"
+           data-src="/images/114迎新.webp" data-title="迎新" data-date="2025.09"
+           data-desc="學期初的迎新活動，進行社團介紹以及舉行很廚的有獎徵答，歡迎新社員加入。">
         <img src="/images/114迎新.webp" alt="114迎新" class="w-full h-full object-cover">
-        <div class="overlay absolute inset-0 flex items-end p-4">
-          <div>
-            <p class="text-white text-sm font-bold">迎新</p>
-            <p class="text-white/60 text-xs font-display">2025.09</p>
-          </div>
-        </div>
       </div>
 
-      <div class="gallery-item aspect-square bg-white">
+      <div class="gallery-item aspect-square bg-white w-[calc(50%_-_0.5px)] md:w-[calc(25%_-_0.75px)]"
+           data-src="/images/114運動會擺攤.webp" data-title="運動會擺攤" data-date="2025.11"
+           data-desc="運動會期間的社團擺攤活動，在運動場邊擺攤，向本校學生介紹社團。">
         <img src="/images/114運動會擺攤.webp" alt="114運動會擺攤" class="w-full h-full object-cover">
-        <div class="overlay absolute inset-0 flex items-end p-4">
-          <div>
-            <p class="text-white text-sm font-bold">運動會擺攤</p>
-            <p class="text-white/60 text-xs font-display">2025.10</p>
-          </div>
-        </div>
       </div>
 
-      <div class="gallery-item aspect-square bg-white">
+      <div class="gallery-item aspect-square bg-white w-[calc(50%_-_0.5px)] md:w-[calc(25%_-_0.75px)]"
+           data-src="/images/114校慶擺攤.webp" data-title="校慶擺攤" data-date="2025.02"
+           data-desc="校慶期間的社團擺攤活動。當天除了有許多學生外，也有許多對陽明交大感興趣的高中生前來參觀。">
         <img src="/images/114校慶擺攤.webp" alt="114校慶擺攤" class="w-full h-full object-cover">
-        <div class="overlay absolute inset-0 flex items-end p-4">
-          <div>
-            <p class="text-white text-sm font-bold">校慶擺攤</p>
-            <p class="text-white/60 text-xs font-display">2025.02</p>
-          </div>
-        </div>
       </div>
 
-      <div class="gallery-item aspect-square bg-white">
+      <div class="gallery-item aspect-square bg-white w-[calc(50%_-_0.5px)] md:w-[calc(25%_-_0.75px)]"
+           data-src="/images/114上歌謠祭.webp" data-title="動漫周歌謠祭" data-date="2025.11"
+           data-desc="歌謠祭為本社每學期舉辦之活動，藉由播放社員自製的 MAD，搭配音響設備歡唱，透過歌曲凝聚社員感情。">
         <img src="/images/114上歌謠祭.webp" alt="114上歌謠祭" class="w-full h-full object-cover">
-        <div class="overlay absolute inset-0 flex items-end p-4">
-          <div>
-            <p class="text-white text-sm font-bold">動漫周歌謠祭</p>
-            <p class="text-white/60 text-xs font-display">2025.11</p>
-          </div>
-        </div>
       </div>
 
-      <div class="gallery-item aspect-square bg-white">
+      <div class="gallery-item aspect-square bg-white w-[calc(50%_-_0.5px)] md:w-[calc(25%_-_0.75px)]"
+           data-src="/images/114前夜祭.webp" data-title="動漫周前夜祭" data-date="2025.11"
+           data-desc="動漫周前夜祭活動紀錄。">
         <img src="/images/114前夜祭.webp" alt="114前夜祭" class="w-full h-full object-cover">
-        <div class="overlay absolute inset-0 flex items-end p-4">
-          <div>
-            <p class="text-white text-sm font-bold">動漫周前夜祭</p>
-            <p class="text-white/60 text-xs font-display">2025.11</p>
-          </div>
-        </div>
       </div>
 
-      <div class="gallery-item aspect-square bg-white">
+      <div class="gallery-item aspect-square bg-white w-[calc(50%_-_0.5px)] md:w-[calc(25%_-_0.75px)]"
+           data-src="/images/FF44擺攤.webp" data-title="FF44 擺攤" data-date="2025.02"
+           data-desc="「Fancy Frontier 開拓動漫祭44」為台灣首屈一指之動畫愛好者盛事，許多知名海內外創作者均不遠千里前來參展。本社於其中擺攤販售自製社刊，並與其他大學宅系社團交流。">
         <img src="/images/FF44擺攤.webp" alt="FF44擺攤" class="w-full h-full object-cover">
-        <div class="overlay absolute inset-0 flex items-end p-4">
-          <div>
-            <p class="text-white text-sm font-bold">FF44 擺攤</p>
-            <p class="text-white/60 text-xs font-display">2025.02</p>
-          </div>
-        </div>
       </div>
 
-      <div class="gallery-item aspect-square bg-white">
+      <div class="gallery-item aspect-square bg-white w-[calc(50%_-_0.5px)] md:w-[calc(25%_-_0.75px)]"
+           data-src="/images/FF45擺攤.webp" data-title="FF45 擺攤" data-date="2025.08"
+           data-desc="「Fancy Frontier 開拓動漫祭45」為台灣首屈一指之動畫愛好者盛事，許多知名海內外創作者均不遠千里前來參展。本社於其中擺攤販售自製社刊，並與其他大學宅系社團交流。">
         <img src="/images/FF45擺攤.webp" alt="FF45擺攤" class="w-full h-full object-cover">
-        <div class="overlay absolute inset-0 flex items-end p-4">
-          <div>
-            <p class="text-white text-sm font-bold">FF45 擺攤</p>
-            <p class="text-white/60 text-xs font-display">2025.08</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item aspect-square bg-white">
-        <img src="/images/刺台北花籃.webp" alt="CWT 花籃應援" class="w-full h-full object-cover">
-        <div class="overlay absolute inset-0 flex items-end p-4">
-          <div>
-            <p class="text-white text-sm font-bold">刺台北花籃</p>
-            <p class="text-white/60 text-xs font-display">2025.08</p>
-          </div>
-        </div>
       </div>
 
     </div>
+
+    <!-- 社團贊助花籃 -->
+    <div class="mt-16 lg:mt-20">
+      <div class="mb-8">
+        <h3 class="text-xl lg:text-3xl font-bold tracking-tight">社團贊助花籃</h3>
+        <div class="w-12 h-[2px] bg-brand mt-4"></div>
+      </div>
+      <div class="flex flex-wrap gap-[1px]">
+
+        <div class="gallery-item aspect-square bg-white w-[calc(50%_-_0.5px)] md:w-[calc(25%_-_0.75px)]"
+             data-src="/images/刺台北花籃.webp" data-title="トゲナシトゲアリ LIVE in TAIPEI 凛音の理" data-date="2025.08"
+             data-desc="2025年8月，トゲナシトゲアリ於台北舉行了首次登台演唱會「凛音の理」，吸引了眾多粉絲前往參加。作為對這場盛事的支持，本社參與由粉絲自行發起的企劃，致贈精心設計的花籃，表達我們的熱愛與祝福。">
+          <img src="/images/刺台北花籃.webp" alt="刺台北花籃" class="w-full h-full object-cover">
+        </div>
+        <!-- 在此新增更多花籃照片，格式同上 -->
+
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -633,12 +728,27 @@
 <!-- ════════════════════════════════════════════════════════════
      FOOTER
      ════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════
+     LIGHTBOX MODAL
+     ════════════════════════════════════════════════════════════ -->
+<div class="lightbox-backdrop" id="lightbox">
+  <div class="lightbox-card">
+    <button class="lightbox-close" id="lightboxClose" aria-label="關閉">✕</button>
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-info">
+      <h3 class="lightbox-title" id="lightboxTitle"></h3>
+      <p class="lightbox-date" id="lightboxDate"></p>
+      <p class="lightbox-desc" id="lightboxDesc"></p>
+    </div>
+  </div>
+</div>
+
 <footer class="bg-[#111] text-white/35 py-8">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
     <p class="text-xs font-display">NCTU Animation Club © 2026</p>
     <div class="flex gap-6 text-xs">
       <a href="https://www.facebook.com/NCTUanime" target="_blank" rel="noopener" class="hover:text-white transition-colors">Facebook</a>
-      <a href="#" class="hover:text-white transition-colors">Discord</a>
+      <a href="https://clubportal.nycu.edu.tw/club/view/join/AB47E02F-4454-4277-8D3B-5104A5924B8A" class="hover:text-white transition-colors">交大單一入口入社</a>
     </div>
   </div>
 </footer>
@@ -686,6 +796,82 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('shadow-sm', window.scrollY > 50);
   }, { passive: true });
+
+  /* ── Lightbox ── */
+  (function() {
+    const lightbox     = document.getElementById('lightbox');
+    const lbImg        = document.getElementById('lightboxImg');
+    const lbTitle      = document.getElementById('lightboxTitle');
+    const lbDate       = document.getElementById('lightboxDate');
+    const lbDesc       = document.getElementById('lightboxDesc');
+    const lbClose      = document.getElementById('lightboxClose');
+
+    function openLightbox(item) {
+      lbImg.src          = item.dataset.src   || '';
+      lbImg.alt          = item.dataset.title || '';
+      lbTitle.textContent = item.dataset.title || '';
+      lbDate.textContent  = item.dataset.date  || '';
+      lbDesc.textContent  = item.dataset.desc  || '';
+      lbDesc.style.display = item.dataset.desc ? '' : 'none';
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.gallery-item[data-src]').forEach(item => {
+      item.addEventListener('click', () => openLightbox(item));
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+    });
+  })();
+
+  /* ── Dark mode toggle ── */
+  (function() {
+    const html = document.documentElement;
+    const toggles = document.querySelectorAll('.theme-toggle');
+
+    function applyTheme(isDark) {
+      html.classList.toggle('dark', isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      toggles.forEach(btn => {
+        btn.querySelector('.icon-moon').classList.toggle('hidden', isDark);
+        btn.querySelector('.icon-sun').classList.toggle('hidden', !isDark);
+      });
+    }
+
+    // Sync icons with current state (class already set by head script)
+    const isDark = html.classList.contains('dark');
+    toggles.forEach(btn => {
+      btn.querySelector('.icon-moon').classList.toggle('hidden', isDark);
+      btn.querySelector('.icon-sun').classList.toggle('hidden', !isDark);
+    });
+
+    // Toggle on click
+    toggles.forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyTheme(!html.classList.contains('dark'));
+      });
+    });
+
+    // Listen for system preference changes when no manual override
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('theme')) {
+        applyTheme(e.matches);
+      }
+    });
+  })();
 </script>
 
 </body>
