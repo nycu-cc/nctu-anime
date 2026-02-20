@@ -12,7 +12,11 @@ if (process.env.NODE_ENV !== 'production') {
     exts: ['html', 'css', 'js'],
     delay: 100,
   });
-  lrServer.watch(path.join(__dirname, 'public'));
+  // 監視 public 資料夾及根目錄 HTML 檔案
+  lrServer.watch([
+    path.join(__dirname, 'public'),
+    path.join(__dirname),
+  ]);
   app.use(connectLiveReload());
 }
 
@@ -20,9 +24,17 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 路由處理
+// 首頁
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 子頁面路由 — 根目錄的 HTML 檔案
+const pages = ['activity', 'topics', 'gallery', 'officers', 'contact'];
+pages.forEach(page => {
+  app.get(`/${page}.html`, (req, res) => {
+    res.sendFile(path.join(__dirname, `${page}.html`));
+  });
 });
 
 // 啟動服務器
