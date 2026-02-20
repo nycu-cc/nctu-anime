@@ -12,11 +12,15 @@ if (process.env.NODE_ENV !== 'production') {
     exts: ['html', 'css', 'js'],
     delay: 100,
   });
-  // 監視 public 資料夾及根目錄 HTML 檔案
-  lrServer.watch([
-    path.join(__dirname, 'public'),
-    path.join(__dirname),
-  ]);
+
+  // 明確列出要監視的路徑，避免掃描 node_modules
+  const rootPages = ['index', 'activity', 'topics', 'gallery', 'officers', 'contact'];
+  const watchTargets = [
+    path.join(__dirname, 'public'),           // shared.css, shared.js ...
+    path.join(__dirname, 'images'),           // 圖片更新時也刷新
+    ...rootPages.map(p => path.join(__dirname, `${p}.html`)),
+  ];
+  lrServer.watch(watchTargets);
   app.use(connectLiveReload());
 }
 

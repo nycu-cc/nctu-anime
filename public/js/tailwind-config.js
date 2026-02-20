@@ -6,7 +6,7 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        brand: '#C41E3A',
+        brand: '#D90E2C',
         'brand-dark': '#9E1830',
         'off-white': '#F9F9F9',
         'dark': '#1A1A1A',
