@@ -13,32 +13,29 @@ if (process.env.NODE_ENV !== 'production') {
     delay: 100,
   });
 
-  // 明確列出要監視的路徑，避免掃描 node_modules
-  const rootPages = ['index', 'activity', 'topics', 'gallery', 'officers', 'contact'];
-  const watchTargets = [
-    path.join(__dirname, 'public'),           // shared.css, shared.js ...
-    path.join(__dirname, 'images'),           // 圖片更新時也刷新
-    ...rootPages.map(p => path.join(__dirname, `${p}.html`)),
-  ];
-  lrServer.watch(watchTargets);
+  // 監視整個專案目錄（排除 node_modules）
+  lrServer.watch([
+    path.join(__dirname, 'public'),
+    path.join(__dirname, 'images'),
+    path.join(__dirname, 'pages'),
+    path.join(__dirname, 'index.html'),
+  ]);
   app.use(connectLiveReload());
 }
 
-// 提供靜態文件
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use(express.static(path.join(__dirname, 'public')));
+// 提供靜態檔案
+// 以專案根目錄為靜態根，使路徑與 GitHub Pages 一致
+// (例：public/js/shared.js → GET /public/js/shared.js)
+app.use(express.static(path.join(__dirname)));
 
 // 首頁
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// 子頁面路由 — 根目錄的 HTML 檔案
-const pages = ['activity', 'topics', 'gallery', 'officers', 'contact'];
-pages.forEach(page => {
-  app.get(`/${page}.html`, (req, res) => {
-    res.sendFile(path.join(__dirname, `${page}.html`));
-  });
+// 子頁面路由
+app.get('/pages/charter.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'pages', 'charter.html'));
 });
 
 // 啟動服務器

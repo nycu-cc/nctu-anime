@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
@@ -34,55 +34,9 @@
 <body class="bg-white text-dark antialiased">
 
 <!-- ════════════════════════════════════════════════════════════
-     NAVIGATION
+     NAVIGATION（由 shared.js buildNav 動態注入）
      ════════════════════════════════════════════════════════════ -->
-<nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200" id="nav">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-    <!-- Brand -->
-    <a href="../index.html" class="flex items-center gap-3">
-      <span class="text-brand font-bold text-lg tracking-tight">交大動畫社</span>
-    </a>
-
-    <!-- Desktop Links -->
-    <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-      <a href="../index.html#activity" class="nav-link text-dark/70 hover:text-dark transition-colors">社課主軸</a>
-      <a href="../index.html#topics"   class="nav-link text-dark/70 hover:text-dark transition-colors">往期內容</a>
-      <a href="../index.html#gallery"  class="nav-link text-dark/70 hover:text-dark transition-colors">活動剪影</a>
-      <a href="../index.html#officers" class="nav-link text-dark/70 hover:text-dark transition-colors">幹部介紹</a>
-      <a href="charter.html" class="nav-link active text-dark/70 hover:text-dark transition-colors">社團章程</a>
-      <button class="theme-toggle w-8 h-8 flex items-center justify-center text-dark/60 hover:text-dark transition-colors" aria-label="切換夜間模式">
-        <svg class="icon-moon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-        <svg class="icon-sun w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-      </button>
-      <a href="../index.html#contact"  class="btn-fill px-5 py-2 text-xs font-semibold tracking-wider uppercase">加入我們</a>
-    </div>
-
-    <!-- Mobile Controls -->
-    <div class="flex items-center gap-2 md:hidden">
-      <button class="theme-toggle w-8 h-8 flex items-center justify-center text-dark/60 hover:text-dark transition-colors" aria-label="切換夜間模式">
-        <svg class="icon-moon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-        <svg class="icon-sun w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-      </button>
-      <button id="menuBtn" class="w-8 h-8 flex flex-col justify-center items-center gap-1.5" aria-label="選單">
-        <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml1"></span>
-        <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml2"></span>
-        <span class="block w-5 h-[2px] bg-dark transition-all duration-300" id="ml3"></span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile Drawer -->
-  <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-100">
-    <div class="px-6 py-6 flex flex-col gap-4 text-sm font-medium">
-      <a href="../index.html#activity" class="mob-link text-dark/70 hover:text-dark py-2">社課主軸</a>
-      <a href="../index.html#topics"   class="mob-link text-dark/70 hover:text-dark py-2">往期內容</a>
-      <a href="../index.html#gallery"  class="mob-link text-dark/70 hover:text-dark py-2">活動剪影</a>
-      <a href="../index.html#officers" class="mob-link text-dark/70 hover:text-dark py-2">幹部介紹</a>
-      <a href="charter.html" class="mob-link text-dark/70 hover:text-dark py-2">社團章程</a>
-      <a href="../index.html#contact"  class="mob-link btn-fill inline-block px-5 py-3 text-xs font-semibold tracking-wider uppercase text-center mt-2">加入我們</a>
-    </div>
-  </div>
-</nav>
+<nav id="nav"></nav>
 
 
 <!-- ════════════════════════════════════════════════════════════
@@ -113,7 +67,7 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     <div class="bg-off-white border border-dark/10 overflow-hidden">
       <!-- PDF Embed Container -->
-      <div class="relative w-full" style="padding-bottom: 141.4%; /* A4 aspect ratio */">
+      <div class="relative w-full" style="height: 800px;">
         <iframe 
           src="../images/動畫社組織章程.pdf"
           class="absolute inset-0 w-full h-full"
@@ -136,26 +90,20 @@
 
 
 <!-- ════════════════════════════════════════════════════════════
-     FOOTER
+     FOOTER（由 shared.js buildFooter 動態注入）
      ════════════════════════════════════════════════════════════ -->
-<footer class="bg-[#111] text-white/35 py-8">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-xs font-display">NCTU Animation Club © 2026</p>
-    <div class="flex gap-8 text-xs">
-      <a href="https://www.facebook.com/NCTUanime" target="_blank" rel="noopener" class="hover:text-white transition-colors">Facebook</a>
-      <a href="https://clubportal.nycu.edu.tw/club/view/join/AB47E02F-4454-4277-8D3B-5104A5924B8A" class="hover:text-white transition-colors">交大單一入口入社</a>
-      <a href="https://github.com/nycu-cc" class="hover:text-white transition-colors">Github Organization</a>
-      <a href="https://github.com/nycu-cc/nctu-anime" class="hover:text-white transition-colors">Source Code</a>
-    </div>
-  </div>
-</footer>
+<footer id="footer"></footer>
 
 
 <!-- ════════════════════════════════════════════════════════════
      SCRIPTS
      ════════════════════════════════════════════════════════════ -->
-<!-- Shared Scripts -->
 <script src="../public/js/shared.js"></script>
+<script>
+  buildNav('../', 'charter');
+  buildFooter();
+  initShared();
+</script>
 
 </body>
 </html>
