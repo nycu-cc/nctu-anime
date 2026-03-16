@@ -1,12 +1,11 @@
 ﻿/* ══════════════════════════════════════════════════════════════
-   交大動畫社 — Shared Stylesheet
-   所有頁面共用的樣式，從 index.html 抽取統一管理
+  NCTU Animation Club - Shared Stylesheet
+  Shared styles for all pages, extracted from index.html for centralized maintenance
    ══════════════════════════════════════════════════════════════ */
 
 /* ── Global Reset ── */
 * { border-radius: 0 !important; }
 html { scroll-behavior: smooth; }
-/* 移除 font-feature-settings: 'palt' 以避免全形標點符號被壓縮成半形寬度 */
 
 /* ── Circular avatar override ── */
 .avatar-circle { border-radius: 50% !important; }

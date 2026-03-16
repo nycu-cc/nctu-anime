@@ -1,15 +1,15 @@
 // ══════════════════════════════════════════════════════════════
-// 交大動畫社 — Shared Scripts
-// 使用方式：在每個頁面的 </body> 前呼叫：
+// NCTU Animation Club - Shared Scripts
+// Usage: call these before </body> on each page:
 //   buildNav(root, currentPage);
 //   buildFooter();
 //   initShared();
 // ══════════════════════════════════════════════════════════════
 
 
-/* ── 導覽列注入 ──
- *  root        : 根目錄相對路徑。首頁用 ''，子頁面用 '../'
- *  currentPage : 'home'（預設）或 'charter'，用於標記 active 連結
+/* -- Navbar injection --
+ *  root        : relative path to project root. Use '' on home, '../' on subpages.
+ *  currentPage : 'home' (default) or 'charter', used to mark the active link.
  */
 function buildNav(root, currentPage) {
   root = root || '';
@@ -17,7 +17,7 @@ function buildNav(root, currentPage) {
 
   var isHome = (currentPage === 'home');
 
-  // 截點連結：首頁直接用 #anchor；子頁面需指回 index.html
+  // Section links: use #anchor on home, point back to index.html on subpages.
   var sec = isHome ? '' : root + 'index.html';
   var charterHref = isHome ? 'pages/charter.html' : 'charter.html';
   var charterActive = (currentPage === 'charter') ? ' active' : '';
@@ -86,7 +86,7 @@ function buildNav(root, currentPage) {
 }
 
 
-/* ── Footer 注入（含動態版權年份）── */
+/* -- Footer injection (with dynamic copyright year) -- */
 function buildFooter() {
   var footer = document.getElementById('footer');
   if (!footer) return;
@@ -107,7 +107,7 @@ function buildFooter() {
 }
 
 
-/* ── 初始化所有互動功能（在 buildNav/buildFooter 呼叫後執行）── */
+/* -- Initialize all interactive behaviors (run after buildNav/buildFooter) -- */
 function initShared() {
 
   /* Mobile menu toggle */
@@ -136,7 +136,7 @@ function initShared() {
       }
     });
 
-    /* 點選連結後關閉選單 */
+    /* Close menu after link click */
     document.querySelectorAll('.mob-link').forEach(function (link) {
       link.addEventListener('click', function () {
         mobileMenu.classList.add('hidden');
@@ -213,7 +213,7 @@ function initShared() {
       });
     }
 
-    /* 同步圖示與 <html> 既有狀態（head 的 inline script 已設定 class）*/
+    /* Sync icons with the existing <html> state (class already set by inline script in head) */
     var isDark = html.classList.contains('dark');
     toggles.forEach(function (btn) {
       btn.querySelector('.icon-moon').classList.toggle('hidden', isDark);
@@ -226,7 +226,7 @@ function initShared() {
       });
     });
 
-    /* 跟隨系統偏好（使用者未手動設定時） */
+    /* Follow system preference when no manual setting exists */
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
       if (!localStorage.getItem('theme')) applyTheme(e.matches);
     });

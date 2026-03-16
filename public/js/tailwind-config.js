@@ -1,5 +1,5 @@
 ﻿// ══════════════════════════════════════════════════════════════
-// 交大動畫社 — Tailwind Config (共用)
+// NCTU Animation Club - Tailwind Config (shared)
 // ══════════════════════════════════════════════════════════════
 tailwind.config = {
   darkMode: 'class',

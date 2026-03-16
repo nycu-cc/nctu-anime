@@ -11,8 +11,5 @@ Powered By かなりあ
 
 ```bash
 npm install
-npm run dev   # 啟動 server.js，預覽網址為 http://localhost:3000
+npm run dev   # Start server.js, preview at http://localhost:3000
 ```
-
-> **注意**：`server.js` 僅供本機開發使用，正式部署（如 GitHub Pages）為純靜態 HTML，
-> 不需要 Node.js 環境，`server.js`、`node_modules` 等也不會被部署。

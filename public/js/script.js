@@ -1,10 +1,10 @@
-// 導航欄滾動效果
+// Navbar scroll effect
 const navbar = document.querySelector('.navbar');
 const navLinks = document.querySelectorAll('.nav-link');
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-// 滾動時改變導航欄樣式
+// Change navbar style while scrolling
 window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {
         navbar.classList.add('scrolled');
@@ -13,7 +13,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// 平滑滾動到指定區塊
+// Smooth scroll to the target section
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -28,19 +28,19 @@ navLinks.forEach(link => {
             });
         }
         
-        // 關閉手機版選單
+        // Close mobile menu
         navMenu.classList.remove('active');
         hamburger.classList.remove('active');
     });
 });
 
-// 手機版漢堡選單
+// Mobile hamburger menu
 hamburger.addEventListener('click', () => {
     navMenu.classList.toggle('active');
     hamburger.classList.toggle('active');
 });
 
-// 關閉選單當點擊外部
+// Close menu when clicking outside
 document.addEventListener('click', (e) => {
     if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
         navMenu.classList.remove('active');
@@ -48,7 +48,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// 滾動動畫效果
+// Scroll animation effect
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -100px 0px'
@@ -63,7 +63,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// 為所有需要動畫的元素添加觀察
+// Observe all elements that need animation
 const animatedElements = document.querySelectorAll('.feature-card, .member-card, .activity-card');
 animatedElements.forEach(el => {
     el.style.opacity = '0';
@@ -72,7 +72,7 @@ animatedElements.forEach(el => {
     observer.observe(el);
 });
 
-// 滾動指示器點擊事件
+// Scroll indicator click handler
 const scrollIndicator = document.querySelector('.scroll-indicator');
 if (scrollIndicator) {
     scrollIndicator.addEventListener('click', () => {
@@ -87,7 +87,7 @@ if (scrollIndicator) {
     });
 }
 
-// 當前活動區塊高亮導航
+// Highlight nav link for the active section
 const sections = document.querySelectorAll('section[id]');
 
 const highlightNav = () => {
@@ -108,7 +108,7 @@ const highlightNav = () => {
 
 window.addEventListener('scroll', highlightNav);
 
-// 添加活動導航鏈接樣式
+// Add styles for active navigation links
 const style = document.createElement('style');
 style.textContent = `
     .nav-link.active {
@@ -129,7 +129,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// 載入動畫
+// Page load animation
 window.addEventListener('load', () => {
     document.body.style.opacity = '0';
     setTimeout(() => {
@@ -138,7 +138,7 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
-// 社交媒體圖標懸停效果
+// Social icon hover effect
 const socialIcons = document.querySelectorAll('.social-icon, .social-links a');
 socialIcons.forEach(icon => {
     icon.addEventListener('mouseenter', function() {
@@ -150,7 +150,7 @@ socialIcons.forEach(icon => {
     });
 });
 
-// 為卡片添加視差效果
+// Add parallax effect to cards
 document.addEventListener('mousemove', (e) => {
     const cards = document.querySelectorAll('.member-card, .feature-card, .activity-card');
     
@@ -170,4 +170,4 @@ document.addEventListener('mousemove', (e) => {
     });
 });
 
-console.log('🎉 NCTU 動漫社網站已載入完成！');
+console.log('交大動畫社網站已載入完成');
