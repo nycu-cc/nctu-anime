@@ -38,6 +38,10 @@ app.get('/pages/charter.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'pages', 'charter.html'));
 });
 
+app.get('/pages/officers.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'pages', 'officers.html'));
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);

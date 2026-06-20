@@ -9,7 +9,7 @@
 
 /* -- Navbar injection --
  *  root        : relative path to project root. Use '' on home, '../' on subpages.
- *  currentPage : 'home' (default) or 'charter', used to mark the active link.
+ *  currentPage : 'home' (default), 'charter', or 'officers', used to mark the active link.
  */
 function buildNav(root, currentPage) {
   root = root || '';
@@ -21,6 +21,8 @@ function buildNav(root, currentPage) {
   var sec = isHome ? '' : root + 'index.html';
   var charterHref = isHome ? 'pages/charter.html' : 'charter.html';
   var charterActive = (currentPage === 'charter') ? ' active' : '';
+  var officersHref = isHome ? 'pages/officers.html' : 'officers.html';
+  var officersActive = (currentPage === 'officers') ? ' active' : '';
   var brandHref = isHome ? '#hero' : root + 'index.html';
 
   var moonPath = 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z';
@@ -56,6 +58,7 @@ function buildNav(root, currentPage) {
     +   '<a href="' + sec + '#topics"   class="nav-link text-dark/70 hover:text-dark transition-colors">往期內容</a>'
     +   '<a href="' + sec + '#gallery"  class="nav-link text-dark/70 hover:text-dark transition-colors">活動剪影</a>'
     +   '<a href="' + sec + '#officers" class="nav-link text-dark/70 hover:text-dark transition-colors">幹部介紹</a>'
+    +   '<a href="' + officersHref + '" class="nav-link' + officersActive + ' text-dark/70 hover:text-dark transition-colors">歷屆幹部</a>'
     +   '<a href="' + charterHref + '" class="nav-link' + charterActive + ' text-dark/70 hover:text-dark transition-colors">社團章程</a>'
     +   themeBtn()
     +   '<a href="' + sec + '#contact" class="btn-fill px-5 py-2 text-xs font-semibold tracking-wider uppercase">加入我們</a>'
@@ -79,6 +82,7 @@ function buildNav(root, currentPage) {
   +     '<a href="' + sec + '#topics"   class="mob-link text-dark/70 hover:text-dark py-2">往期內容</a>'
   +     '<a href="' + sec + '#gallery"  class="mob-link text-dark/70 hover:text-dark py-2">活動剪影</a>'
   +     '<a href="' + sec + '#officers" class="mob-link text-dark/70 hover:text-dark py-2">幹部介紹</a>'
+  +     '<a href="' + officersHref + '" class="mob-link text-dark/70 hover:text-dark py-2">歷屆幹部</a>'
   +     '<a href="' + charterHref + '" class="mob-link text-dark/70 hover:text-dark py-2">社團章程</a>'
   +     '<a href="' + sec + '#contact" class="mob-link btn-fill inline-block px-5 py-3 text-xs font-semibold tracking-wider uppercase text-center mt-2">加入我們</a>'
   +   '</div>'
