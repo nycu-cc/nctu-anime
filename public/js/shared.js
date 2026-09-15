@@ -19,6 +19,8 @@ function buildNav(root, currentPage) {
 
   // Section links: use #anchor on home, point back to index.html on subpages.
   var sec = isHome ? '' : root + 'index.html';
+  var welcomeHref = isHome ? 'pages/welcome.html' : 'welcome.html';
+  var welcomeActive = (currentPage === 'welcome') ? ' active' : '';
   var charterHref = isHome ? 'pages/charter.html' : 'charter.html';
   var charterActive = (currentPage === 'charter') ? ' active' : '';
   var officersHref = isHome ? 'pages/officers.html' : 'officers.html';
@@ -54,6 +56,7 @@ function buildNav(root, currentPage) {
 
       // Desktop links
     + '<div class="hidden md:flex items-center gap-8 text-sm font-medium">'
+    +   '<a href="' + welcomeHref + '"  class="nav-link' + welcomeActive + ' text-brand font-bold hover:text-brand-dark transition-colors">迎新活動</a>'
     +   '<a href="' + sec + '#activity" class="nav-link text-dark/70 hover:text-dark transition-colors">社課主軸</a>'
     +   '<a href="' + sec + '#topics"   class="nav-link text-dark/70 hover:text-dark transition-colors">往期內容</a>'
     +   '<a href="' + sec + '#gallery"  class="nav-link text-dark/70 hover:text-dark transition-colors">活動剪影</a>'
@@ -78,6 +81,7 @@ function buildNav(root, currentPage) {
     // Mobile drawer
   + '<div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-100">'
   +   '<div class="px-6 py-6 flex flex-col gap-4 text-sm font-medium">'
+  +     '<a href="' + welcomeHref + '"  class="mob-link' + welcomeActive + ' text-brand font-bold hover:text-brand-dark py-2">迎新活動</a>'
   +     '<a href="' + sec + '#activity" class="mob-link text-dark/70 hover:text-dark py-2">社課主軸</a>'
   +     '<a href="' + sec + '#topics"   class="mob-link text-dark/70 hover:text-dark py-2">往期內容</a>'
   +     '<a href="' + sec + '#gallery"  class="mob-link text-dark/70 hover:text-dark py-2">活動剪影</a>'

@@ -278,12 +278,28 @@ html.dark .text-dark {
   color: #E5E5E5 !important;
 }
 
+html.dark .text-dark\/80 {
+  color: rgba(229, 229, 229, 0.85) !important;
+}
+
 html.dark .text-dark\/70 {
   color: rgba(229, 229, 229, 0.7) !important;
 }
 
+html.dark .text-dark\/65 {
+  color: rgba(229, 229, 229, 0.65) !important;
+}
+
+html.dark .text-dark\/60 {
+  color: rgba(229, 229, 229, 0.6) !important;
+}
+
 html.dark .text-dark\/55 {
   color: rgba(229, 229, 229, 0.55) !important;
+}
+
+html.dark .text-dark\/50 {
+  color: rgba(229, 229, 229, 0.5) !important;
 }
 
 html.dark .text-dark\/40 {
@@ -308,6 +324,14 @@ html.dark .border-gray-100 {
 }
 
 html.dark .border-dark\/10 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .border-dark\/20 {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+html.dark .divide-dark\/10 > :not([hidden]) ~ :not([hidden]) {
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 

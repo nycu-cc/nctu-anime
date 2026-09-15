@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>迎新活動特設頁 — 交大動畫社</title>
+  <meta name="description" content="交大動畫社迎新活動將於 9/23（三）19:00 於陽明交大光復校區綜合一館 A203 教室盛大舉行！社團介紹、廚力有獎徵答、推坑交流，歡迎所有新生與同好加入！">
+  <link rel="icon" href="../images/profile/logo.webp" type="image/webp">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind Config -->
+  <script src="../public/js/tailwind-config.js"></script>
+
+  <script>
+    // Apply saved / system theme before first paint to prevent flash
+    (function () {
+      var s = localStorage.getItem('theme');
+      if (s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <!-- Shared Styles -->
+  <link rel="stylesheet" href="../public/css/shared.css">
+</head>
+
+<body class="bg-white text-dark antialiased">
+
+  <!-- ════════════════════════════════════════════════════════════
+       NAVIGATION (Injected by shared.js buildNav)
+       ════════════════════════════════════════════════════════════ -->
+  <nav id="nav"></nav>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       TOP HERO: TIME & LOCATION SPOTLIGHT + LIVE COUNTDOWN
+       舉辦時間與地點最顯眼，搭配動態倒數計時器
+       ════════════════════════════════════════════════════════════ -->
+  <section class="page-hero bg-white border-b border-dark/10 pt-24 pb-16 lg:pt-32 lg:pb-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <!-- Eyebrow & Main Title -->
+      <div class="text-center max-w-3xl mx-auto mb-10 lg:mb-14">
+        <p class="text-[11px] tracking-[0.35em] text-brand font-display font-bold uppercase mb-3">
+          WELCOME PARTY 2026
+        </p>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-dark">
+          交大動畫社 迎新大會
+        </h1>
+        <div class="w-16 h-[3px] bg-brand mx-auto mt-5 mb-4"></div>
+        <p class="text-dark/60 text-sm sm:text-base leading-[1.8]">
+          無論你是初入校園的新生，或是深藏不露的二次元婆羅門，社辦大門永遠為你敞開！
+        </p>
+      </div>
+
+      <!-- HIGHLIGHT BOX: 時間與地點最顯眼核心卡片 -->
+      <div class="max-w-5xl mx-auto bg-off-white border-2 border-brand shadow-xl relative overflow-hidden">
+        <!-- Top Status Bar -->
+        <div class="bg-brand text-white px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs tracking-[0.2em] font-display font-bold uppercase">
+            Official Announcement
+          </span>
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-medium bg-white/20 px-2.5 py-0.5">
+              免報名・自由入場・備有茶點
+            </span>
+            <a href="../index.html?from=welcome"
+               class="text-xs font-bold text-white bg-black/25 hover:bg-black/40 px-3 py-1 transition-colors inline-flex items-center gap-1">
+              前往官網首頁 →
+            </a>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-10 lg:p-12">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+            <!-- Left: 超巨大時間與地點資訊 -->
+            <div class="lg:col-span-7 space-y-6">
+              <!-- 時間 -->
+              <div class="border-l-4 border-brand pl-5">
+                <p class="text-[11px] font-display tracking-[0.25em] text-mid uppercase font-semibold">
+                  Event Date & Time
+                </p>
+                <div class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-dark mt-1">
+                  9 / 23 <span class="text-xl sm:text-2xl font-bold text-dark">（三）</span> 19:00
+                </div>
+                <p class="text-xs text-dark/55 mt-1 font-medium">
+                  晚上 19:00 正式開始（18:40 開放入場入座）
+                </p>
+              </div>
+
+              <!-- 地點 -->
+              <div class="border-l-4 border-dark/20 pl-5">
+                <p class="text-[11px] font-display tracking-[0.25em] text-mid uppercase font-semibold">
+                  Location
+                </p>
+                <div class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-dark mt-1">
+                  交大光復校區 <span class="text-brand">綜合一館 A203</span>
+                </div>
+                <p class="text-xs text-dark/55 mt-1 font-medium">
+                  新竹市東區大學路 1001 號・綜合一館 2 樓 A203 教室
+                </p>
+              </div>
+
+              <!-- 快捷按鈕組 -->
+              <div class="flex flex-wrap gap-4 pt-2">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=%E5%9C%8B%E7%AB%8B%E9%99%BD%E6%98%8E%E4%BA%A4%E9%80%9A%E5%A4%A7%E5%AD%B8%E5%85%89%E5%BE%A9%E6%A0%A1%E5%8D%80%E7%B6%9C%E5%90%88%E4%B8%80%E9%A4%A8"
+                   target="_blank" rel="noopener"
+                   class="btn-fill px-6 py-3 text-xs sm:text-sm font-bold tracking-wider inline-flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  開啟 Google Maps 導航
+                </a>
+
+                <a href="../index.html?from=welcome"
+                   class="inline-flex items-center gap-2 px-5 py-3 border border-dark/20 text-xs sm:text-sm font-bold text-dark hover:border-brand hover:text-brand transition-colors bg-white">
+                  前往社團官網首頁 →
+                </a>
+
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%E4%BA%A4%E5%A4%A7%E5%8B%95%E7%95%AB%E7%A4%BE%E8%BF%8E%E6%96%B0%E5%A4%A7%E6%9C%83&dates=20260923T110000Z/20260923T133000Z&details=%E4%BA%A4%E5%A4%A7%E5%8B%95%E7%95%AB%E7%A4%BE%E8%BF%8E%E6%96%B0%E6%B4%BB%E5%8B%95%EF%BC%81%E5%90%AB%E7%A4%BE%E5%9C%98%E4%BB%8B%E7%B4%B9%E3%80%81%E7%86%B1%E8%A1%80%E6%9C%89%E7%8D%8E%E5%BE%B5%E7%AD%94%E8%88%87%E6%8E%A8%E5%9D%91%E4%BA%A4%E6%B5%81%E3%80%82&location=%E5%9C%8B%E7%AB%8B%E9%99%BD%E6%98%8E%E4%BA%A4%E9%80%9A%E5%A4%A7%E5%AD%B8%E5%85%89%E5%BE%A9%E6%A0%A1%E5%8D%80%E7%B6%9C%E5%90%88%E4%B8%80%E9%A4%A8A203"
+                   target="_blank" rel="noopener"
+                   class="inline-flex items-center gap-1.5 px-4 py-3 border border-dark/10 text-xs sm:text-sm font-semibold text-dark/70 hover:text-dark transition-colors">
+                  <svg class="w-4 h-4 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  加入行事曆
+                </a>
+
+                <a href="#map-guide"
+                   class="inline-flex items-center gap-1.5 px-3 py-3 text-xs sm:text-sm font-medium text-dark/55 hover:text-dark transition-colors">
+                  交通指引 ↓
+                </a>
+              </div>
+            </div>
+
+            <!-- Right: 倒數計時器模組 -->
+            <div class="lg:col-span-5 bg-white border border-dark/10 p-6 sm:p-8">
+              <div class="flex items-center justify-between mb-4 pb-3 border-b border-dark/10">
+                <span class="text-[11px] font-display tracking-[0.2em] text-mid uppercase font-semibold">
+                  Countdown
+                </span>
+                <span id="countdownStatus" class="text-xs font-bold text-brand font-display">
+                  倒數計時中
+                </span>
+              </div>
+
+              <!-- 4-Block Timer Grid -->
+              <div class="grid grid-cols-4 gap-2 sm:gap-3 text-center" id="countdownGrid">
+                <div class="bg-off-white border border-dark/10 py-4 px-1">
+                  <div id="cdDays" class="text-2xl sm:text-3xl lg:text-4xl font-black font-display text-dark">
+                    00
+                  </div>
+                  <div class="text-[10px] sm:text-xs text-dark/40 font-display uppercase mt-1">天</div>
+                </div>
+
+                <div class="bg-off-white border border-dark/10 py-4 px-1">
+                  <div id="cdHours" class="text-2xl sm:text-3xl lg:text-4xl font-black font-display text-dark">
+                    00
+                  </div>
+                  <div class="text-[10px] sm:text-xs text-dark/40 font-display uppercase mt-1">時</div>
+                </div>
+
+                <div class="bg-off-white border border-dark/10 py-4 px-1">
+                  <div id="cdMinutes" class="text-2xl sm:text-3xl lg:text-4xl font-black font-display text-dark">
+                    00
+                  </div>
+                  <div class="text-[10px] sm:text-xs text-dark/40 font-display uppercase mt-1">分</div>
+                </div>
+
+                <div class="bg-off-white border border-dark/10 py-4 px-1">
+                  <div id="cdSeconds" class="text-2xl sm:text-3xl lg:text-4xl font-black font-display text-brand">
+                    00
+                  </div>
+                  <div class="text-[10px] sm:text-xs text-dark/40 font-display uppercase mt-1">秒</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       POSTER & MANIFESTO: 宣傳海報與特色文案
+       ════════════════════════════════════════════════════════════ -->
+  <section class="py-20 lg:py-28 bg-off-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <!-- Section Title -->
+      <div class="mb-14">
+        <p class="text-[11px] tracking-[0.3em] text-mid font-display font-medium uppercase mb-2">Poster</p>
+        <h2 class="text-3xl lg:text-4xl font-bold tracking-tight">宣傳海報</h2>
+        <div class="w-12 h-[2px] bg-brand mt-4"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+
+        <!-- Left: 迎新宣傳海報展示（以 PDF 內嵌呈現） -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="bg-white border border-dark/10 shadow-sm overflow-hidden">
+            <div class="bg-off-white border-b border-dark/10 px-4 py-3 flex items-center justify-between">
+              <span class="text-xs font-bold text-dark font-display flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
+                </svg>
+                115 迎新宣傳海報（PDF）
+              </span>
+              <div class="flex items-center gap-3">
+                <a href="../images/event/115迎新_post_v2.pdf" target="_blank" rel="noopener"
+                   class="text-xs font-semibold text-brand hover:text-brand-dark transition-colors inline-flex items-center gap-1">
+                  全螢幕開啟 ↗
+                </a>
+                <a href="../images/event/115迎新_post_v2.pdf" download="115交大動畫社迎新海報.pdf"
+                   class="text-xs text-dark/70 hover:text-dark transition-colors inline-flex items-center gap-1">
+                  下載檔案
+                </a>
+              </div>
+            </div>
+
+            <!-- PDF Embed Container -->
+            <div class="relative w-full" style="height: 560px;">
+              <iframe
+                src="../images/event/115迎新_post_v2.pdf#toolbar=0&navpanes=0"
+                class="absolute inset-0 w-full h-full border-0"
+                title="交大動畫社 115 學年度迎新宣傳海報"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+          <p class="text-xs text-dark/55 text-center">
+            若瀏覽器未直接顯示 PDF，請
+            <a href="../images/event/115迎新_post_v2.pdf" target="_blank" rel="noopener" class="text-brand hover:underline">點此於新分頁開啟</a>
+            或點擊下載。
+          </p>
+        </div>
+
+        <!-- Right: 特色文案與二次元經典梗 -->
+        <div class="lg:col-span-6 space-y-8">
+
+          <!-- 薇歐拉惡意剪輯名言卡片 -->
+          <div class="bg-white border-l-4 border-brand border-t border-r border-b border-dark/10 p-6 sm:p-8">
+            <h3 class="text-lg font-bold text-dark mb-3">
+              薇歐拉真的逼走了兩個團員嗎？
+            </h3>
+            <p class="text-sm text-dark/70 leading-[1.9] space-y-2">
+              薇歐拉看起來逼走兩個團員，但是這是事實嗎？這是導演的惡意剪輯！<br>
+              完全沒有薇歐拉真的逼走隊員的實質證據，最多只是薇歐拉表情管理比較差而已。<br>
+              一切都是導演惡意剪輯讓你認為是薇歐拉搞的帶風向。<br>
+              <strong class="text-brand font-bold">
+                薇歐拉其實是多愁善感為了好友著想的好孩子，<br>
+                因為她把團員們都拉進了交大動畫社！
+              </strong>
+            </p>
+          </div>
+
+          <!-- Ciallo 宣言卡片 -->
+          <div class="bg-white border border-dark/10 p-6 sm:p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-brand font-display font-black text-xl tracking-wider">
+                Ciallo～(∠・ω&lt; )⌒☆
+              </span>
+            </div>
+            <p class="text-sm text-dark/70 leading-[1.9] mb-5">
+              無論你是 <strong>V 家廚、東方廚、偶像廚、聲優廚、百合廚、銀夢廚</strong>；<br>
+              喜歡的是 <strong>小說、動畫、演出、作畫、日麻、日 K</strong>；<br>
+              擅長的是 <strong>分析解說、躺平擺爛、ㄨㄅ訂餐</strong>，都熱烈歡迎你加入我們交大動畫社！
+            </p>
+            <div class="border-t border-dark/10 pt-4">
+              <p class="text-xs sm:text-sm text-dark/70 leading-[1.85]">
+                在交大動畫社，你隨時都可以耍廢、打牌、發廚、推坑、看動畫、肝手遊、搓麻將、剪 MAD，社辦永遠有一群閒到發慌的同伴陪你一起。
+              </p>
+            </div>
+          </div>
+
+          <!-- 廚力屬性標籤矩陣 -->
+          <div class="bg-white border border-dark/10 p-5">
+            <p class="text-[11px] font-display tracking-[0.2em] text-mid uppercase font-semibold mb-3">
+              Keyword Tags
+            </p>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">VOCALOID / V 家</span>
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">東方 Project</span>
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">二次元偶像</span>
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">女性聲優</span>
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">百合作品</span>
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">日本麻將</span>
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">MAD 剪輯</span>
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">動畫鑑賞與演出分析</span>
+              <span class="bg-off-white border border-dark/10 px-3 py-1 font-medium text-dark/70">日系卡拉 OK</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       SCHEDULE & HIGHLIGHTS: 迎新活動三大重點
+       ════════════════════════════════════════════════════════════ -->
+  <section class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <div class="mb-16 lg:mb-20">
+        <p class="text-[11px] tracking-[0.3em] text-mid font-display font-medium uppercase mb-2">Program</p>
+        <h2 class="text-3xl lg:text-4xl font-bold tracking-tight">迎新活動內容</h2>
+        <div class="w-12 h-[2px] bg-brand mt-4"></div>
+        <p class="text-lg text-dark/55 mt-4 max-w-3xl">
+          9 月 23 日（三）當晚流程安排充實有趣，兼具社團精華與互動樂趣。
+        </p>
+      </div>
+
+      <!-- 3-Column Highlights Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
+
+        <!-- 01 -->
+        <div class="relative p-8 lg:p-10 border-t-2 border-dark/10 md:border-r md:border-r-dark/10">
+          <span
+            class="font-display text-[5rem] lg:text-[6.5rem] font-extrabold text-dark/[0.04] leading-none absolute top-2 left-6 select-none pointer-events-none">
+            01
+          </span>
+          <div class="relative">
+            <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display uppercase mb-3">
+              Part 1 / 19:00 - 19:20
+            </p>
+            <h3 class="text-xl font-bold mb-4">社團完整介紹</h3>
+            <p class="text-sm text-dark/55 leading-[1.85]">
+              為新生全面介紹交大動畫社的社課安排、三大主軸（鑑賞・交流・創作）、歷年大型活動（動漫周前夜祭、歌謠祭、同人誌展擺攤），以及社辦所擁有的豐富設備與同好資源。
+            </p>
+          </div>
+        </div>
+
+        <!-- 02 -->
+        <div class="relative p-8 lg:p-10 border-t-2 border-dark/10 md:border-r md:border-r-dark/10">
+          <span
+            class="font-display text-[5rem] lg:text-[6.5rem] font-extrabold text-dark/[0.04] leading-none absolute top-2 left-6 select-none pointer-events-none">
+            02
+          </span>
+          <div class="relative">
+            <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display uppercase mb-3">
+              Part 2 / 19:20 - 20:40
+            </p>
+            <h3 class="text-xl font-bold mb-4">很廚的有獎徵答</h3>
+            <p class="text-sm text-dark/55 leading-[1.85]">
+              迎新重頭戲！由幹部群精心策劃、極富趣味與考驗動漫廚力的有獎問答環節。題目涵蓋新番、經典老作、聲優名梗與迷因考題，答對即可能獲贈各類精緻動漫周邊獎品！
+            </p>
+          </div>
+        </div>
+
+        <!-- 03 -->
+        <div class="relative p-8 lg:p-10 border-t-2 border-dark/10">
+          <span
+            class="font-display text-[5rem] lg:text-[6.5rem] font-extrabold text-dark/[0.04] leading-none absolute top-2 left-6 select-none pointer-events-none">
+            03
+          </span>
+          <div class="relative">
+            <p class="text-brand text-[11px] font-semibold tracking-[0.15em] font-display uppercase mb-3">
+              Part 3 / 20:40 - 21:30
+            </p>
+            <h3 class="text-xl font-bold mb-4">參觀社辦與自由交流</h3>
+            <p class="text-sm text-dark/55 leading-[1.85]">
+              參觀社辦並與社員和新生自由交流彼此喜愛的作品、交流手遊 UID、揪打牌打麻將，讓你第一天就能找到志同道合的宅宅夥伴。
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       LOCATION & NAVIGATION: 網頁內嵌 Google Map 與 App 導航
+       ════════════════════════════════════════════════════════════ -->
+  <section id="map-guide" class="py-20 lg:py-28 bg-dark text-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <div class="mb-14">
+        <p class="text-[11px] tracking-[0.3em] text-white/40 font-display font-medium uppercase mb-2">
+          Venue & Route
+        </p>
+        <h2 class="text-3xl lg:text-4xl font-bold tracking-tight">活動地點與路線指引</h2>
+        <div class="w-12 h-[2px] bg-brand mt-4"></div>
+        <p class="text-white/60 text-sm sm:text-base mt-4 max-w-3xl leading-relaxed">
+          迎新地點位於陽明交大光復校區「綜合一館 2 樓 A203 教室」。您可以直接在下方地圖查閱位置，或點擊按鈕直接開啟 Google Maps App 啟動即時路線導航。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+
+        <!-- Left: 路線指引與直通按鈕 -->
+        <div class="lg:col-span-5 space-y-6">
+
+          <!-- 醒目地點卡片 -->
+          <div class="bg-white/[0.04] border border-white/10 p-6 sm:p-8 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] text-white/40 font-display uppercase tracking-widest">Target Venue</span>
+              <span class="text-xs font-bold text-brand bg-brand/10 px-2 py-0.5 border border-brand/30">A203 教室</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white">
+              陽明交大光復校區 綜合一館
+            </h3>
+            <p class="text-xs text-white/60 leading-relaxed">
+              地址：300093 新竹市東區大學路 1001 號（光復校區綜合一館 2 樓）
+            </p>
+
+            <!-- 導航行動呼籲按鈕組 -->
+            <div class="pt-4 space-y-3">
+              <!-- Google Maps App 導航 -->
+              <a href="https://www.google.com/maps/dir/?api=1&destination=%E5%9C%8B%E7%AB%8B%E9%99%BD%E6%98%8E%E4%BA%A4%E9%80%9A%E5%A4%A7%E5%AD%B8%E5%85%89%E5%BE%A9%E6%A0%A1%E5%8D%80%E7%B6%9C%E5%90%88%E4%B8%80%E9%A4%A8"
+                 target="_blank" rel="noopener"
+                 class="block w-full bg-brand hover:bg-brand-dark transition-colors text-center py-4 text-white font-bold text-sm tracking-wider">
+                開啟 Google Maps App 導航 →
+              </a>
+
+              <!-- 一鍵複製地點文字 -->
+              <button id="copyAddressBtn"
+                      class="w-full bg-white/10 hover:bg-white/20 border border-white/20 transition-colors py-3 text-xs sm:text-sm font-semibold text-white/90 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                <span id="copyBtnText">複製地點地址</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 校園動線指引條目 -->
+          <div class="bg-white/[0.02] border border-white/10 p-6 space-y-4">
+            <h4 class="text-sm font-bold tracking-wide uppercase text-white/80">校內抵達方式</h4>
+
+            <div class="space-y-3 text-xs text-white/60 leading-relaxed">
+              <div class="flex gap-3">
+                <span class="text-brand font-bold font-display">01</span>
+                <p><strong class="text-white/90">由大學路北大門進入：</strong>步行約 10 分鐘，經大禮堂與浩然圖書館，右前方建築即為綜合一館。</p>
+              </div>
+
+              <div class="flex gap-3">
+                <span class="text-brand font-bold font-display">02</span>
+                <p><strong class="text-white/90">由新安路南大門進入：</strong>可沿環校道路前進，步行約 10 分鐘即可到達綜合一館。</p>
+              </div>
+
+              <div class="flex gap-3">
+                <span class="text-brand font-bold font-display">03</span>
+                <p><strong class="text-white/90">進入館舍後動線：</strong>進入綜合一館正門後上 2 樓，隨指標即可抵達 A203 教室，門口將有指引標示。</p>
+              </div>
+
+              <div class="flex gap-3 pt-2 border-t border-white/10">
+                <span class="text-brand font-bold font-display">※</span>
+                <p><strong class="text-white/90">動畫社常設社辦：</strong>位於「學生活動中心 5F 527 室」，平日 10:00 ~ 22:00 開放，歡迎隨時推門串門子。</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: 內嵌 Google 地圖 -->
+        <div class="lg:col-span-7 flex flex-col">
+          <div class="bg-white/[0.04] border border-white/10 flex-1 min-h-[420px] lg:min-h-[500px] overflow-hidden relative">
+            <iframe
+              src="https://maps.google.com/maps?q=%E5%9C%8B%E7%AB%8B%E9%99%BD%E6%98%8E%E4%BA%A4%E9%80%9A%E5%A4%A7%E5%AD%B8%E5%85%89%E5%BE%A9%E6%A0%A1%E5%8D%80%E7%B6%9C%E5%90%88%E4%B8%80%E9%A4%A8&t=&z=17&ie=UTF8&iwloc=&output=embed"
+              class="w-full h-full border-0 absolute inset-0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="陽明交大光復校區綜合一館位置圖">
+            </iframe>
+          </div>
+          <div class="bg-white/[0.06] px-6 py-3 border-x border-b border-white/10 flex items-center justify-between text-xs text-white/50">
+            <span>坐標定位：國立陽明交通大學光復校區 綜合一館</span>
+            <a href="https://maps.google.com/?q=%E5%9C%8B%E7%AB%8B%E9%99%BD%E6%98%8E%E4%BA%A4%E9%80%9A%E5%A4%A7%E5%AD%B8%E5%85%89%E5%BE%A9%E6%A0%A1%E5%8D%80%E7%B6%9C%E5%90%88%E4%B8%80%E9%A4%A8"
+               target="_blank" rel="noopener" class="text-brand hover:underline">
+              於 Google Maps 完整視窗開啟 ↗
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       FAQ: 新生常見問答
+       ════════════════════════════════════════════════════════════ -->
+  <section class="py-20 lg:py-28 bg-white border-b border-dark/10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <div class="mb-14 text-center max-w-2xl mx-auto">
+        <p class="text-[11px] tracking-[0.3em] text-mid font-display font-medium uppercase mb-2">Q & A</p>
+        <h2 class="text-3xl lg:text-4xl font-bold tracking-tight">迎新常見問題</h2>
+        <div class="w-12 h-[2px] bg-brand mx-auto mt-4"></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto divide-y divide-dark/10 border-y border-dark/10">
+
+        <div class="py-6 sm:py-8">
+          <h3 class="text-base sm:text-lg font-bold text-dark mb-2">
+            Q1：迎新需要事先填表報名嗎？需要繳交費用嗎？
+          </h3>
+          <p class="text-sm text-dark/70 leading-[1.85]">
+            完全不需要事先報名，且迎新活動全程完全免費！當晚 18:40 起開放直接入場入座，現場備有茶點招待，隨時歡迎推門入內。
+          </p>
+        </div>
+
+        <div class="py-6 sm:py-8">
+          <h3 class="text-base sm:text-lg font-bold text-dark mb-2">
+            Q2：非大一新生、研究生或外校學生可以參加嗎？
+          </h3>
+          <p class="text-sm text-dark/70 leading-[1.85]">
+            當然可以！交大動畫社歡迎所有對動漫文化有熱忱的朋友，無論是大一新血、轉學生、碩博研究生或是外校動漫同好，皆可自由參加。
+          </p>
+        </div>
+
+        <div class="py-6 sm:py-8">
+          <h3 class="text-base sm:text-lg font-bold text-dark mb-2">
+            Q3：如果一個人前來、沒有認識的朋友會很尷尬嗎？
+          </h3>
+          <p class="text-sm text-dark/70 leading-[1.85]">
+            完全不會！絕大部分同學都是獨自前來，社團幹部與學長姐非常熱情友善，透過有獎徵答與推坑交流，很快就能找到興趣相投的同好。
+          </p>
+        </div>
+
+        <div class="py-6 sm:py-8">
+          <h3 class="text-base sm:text-lg font-bold text-dark mb-2">
+            Q4：當天無法到場，之後還有機會加入社團嗎？
+          </h3>
+          <p class="text-sm text-dark/70 leading-[1.85]">
+            可以！若當天時間無法配合，歡迎隨時至交大動畫社 Facebook 粉絲專頁私訊，或於平日直接前往學生活動中心 5F 527 社辦與我們聯絡！
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       LIGHTBOX MODAL (Matching shared.js behavior)
+       ════════════════════════════════════════════════════════════ -->
+  <div class="lightbox-backdrop" id="lightbox">
+    <div class="lightbox-card">
+      <button class="lightbox-close" id="lightboxClose" aria-label="關閉">✕</button>
+      <img id="lightboxImg" src="" alt="">
+      <div class="lightbox-info">
+        <h3 class="lightbox-title" id="lightboxTitle"></h3>
+        <p class="lightbox-date" id="lightboxDate"></p>
+        <p class="lightbox-desc" id="lightboxDesc"></p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       FOOTER (Injected by shared.js buildFooter)
+       ════════════════════════════════════════════════════════════ -->
+  <footer id="footer"></footer>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       SCRIPTS
+       ════════════════════════════════════════════════════════════ -->
+  <script src="../public/js/shared.js"></script>
+  <script>
+    buildNav('../', 'welcome');
+    buildFooter();
+    initShared();
+
+    // ── 實時倒數計時器邏輯 ──
+    (function () {
+      // 目標時間：2026 年 9 月 23 日 19:00:00 (台北時間 UTC+8)
+      var targetDate = new Date('2026-09-23T19:00:00+08:00').getTime();
+
+      var elDays    = document.getElementById('cdDays');
+      var elHours   = document.getElementById('cdHours');
+      var elMinutes = document.getElementById('cdMinutes');
+      var elSeconds = document.getElementById('cdSeconds');
+      var elStatus  = document.getElementById('countdownStatus');
+
+      function pad(num) {
+        return num < 10 ? '0' + num : num;
+      }
+
+      function updateTimer() {
+        var now = new Date().getTime();
+        var distance = targetDate - now;
+
+        if (distance > 0) {
+          var days    = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          elDays.textContent    = pad(days);
+          elHours.textContent   = pad(hours);
+          elMinutes.textContent = pad(minutes);
+          elSeconds.textContent = pad(seconds);
+          elStatus.textContent  = '倒數計時中';
+        } else if (distance > - (3.5 * 60 * 60 * 1000)) {
+          // 活動進行中（3.5 小時內）
+          elDays.textContent    = '00';
+          elHours.textContent   = '00';
+          elMinutes.textContent = '00';
+          elSeconds.textContent = '00';
+          elStatus.textContent  = '活動進行中！歡迎前往 A203';
+        } else {
+          // 活動已圓滿落幕
+          elDays.textContent    = '00';
+          elHours.textContent   = '00';
+          elMinutes.textContent = '00';
+          elSeconds.textContent = '00';
+          elStatus.textContent  = '活動已圓滿結束';
+        }
+      }
+
+      updateTimer();
+      setInterval(updateTimer, 1000);
+    })();
+
+    // ── 一鍵複製地點地址 ──
+    (function () {
+      var copyBtn = document.getElementById('copyAddressBtn');
+      var copyText = document.getElementById('copyBtnText');
+      if (!copyBtn) return;
+
+      var addressToCopy = '新竹市東區大學路 1001 號 國立陽明交通大學光復校區 綜合一館 A203 教室';
+
+      copyBtn.addEventListener('click', function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(addressToCopy).then(function () {
+            copyText.textContent = '已複製地址至剪貼簿！';
+            setTimeout(function () {
+              copyText.textContent = '複製地點地址';
+            }, 2500);
+          }).catch(function () {
+            prompt('請手動複製地址：', addressToCopy);
+          });
+        } else {
+          prompt('請手動複製地址：', addressToCopy);
+        }
+      });
+    })();
+  </script>
+
+</body>
+
+</html>

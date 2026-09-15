@@ -29,6 +29,21 @@
         document.documentElement.classList.add('dark');
       }
     })();
+
+    // 迎新宣傳期間：首次訪問自動導向迎新專頁
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      // 若帶有 ?from=welcome 或 ?skip=1 或已主動點擊進入首頁，則停留在首頁
+      if (params.get('from') === 'welcome' || params.get('skip') === '1' || sessionStorage.getItem('visited_home')) {
+        sessionStorage.setItem('visited_home', '1');
+        return;
+      }
+      if (document.referrer && document.referrer.indexOf('welcome.html') !== -1) {
+        sessionStorage.setItem('visited_home', '1');
+        return;
+      }
+      window.location.replace('pages/welcome.html');
+    })();
   </script>
 
   <!-- Shared Styles -->
@@ -64,12 +79,12 @@
             是一群喜好動畫、東方、日麻、桌遊、女聲優的人們組成的同好會。<br>
             如果你也喜歡這些美好的事物，歡迎你加入動畫社與我們一同交流。
           </p>
-          <div class="flex gap-5 items-center pt-2">
-            <a href="#contact" class="btn-fill px-8 py-3.5 text-sm font-bold tracking-wider">
-              加入我們
+          <div class="flex flex-wrap gap-4 items-center pt-2">
+            <a href="pages/welcome.html" class="btn-fill px-7 py-3.5 text-sm font-bold tracking-wider inline-flex items-center gap-2">
+              115 迎新專頁 ↗
             </a>
-            <a href="#activity" class="text-sm text-mid hover:text-dark transition-colors font-medium">
-              了解更多 →
+            <a href="#contact" class="text-sm text-mid hover:text-dark transition-colors font-medium">
+              加入我們 →
             </a>
           </div>
         </div>

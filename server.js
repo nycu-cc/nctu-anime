@@ -28,12 +28,28 @@ if (process.env.NODE_ENV !== 'production') {
 // (Example: public/js/shared.js -> GET /public/js/shared.js)
 app.use(express.static(path.join(__dirname)));
 
-// Home page
+// Home page - redirect to welcome page during orientation period
 app.get('/', (req, res) => {
+  if (req.query.from === 'welcome' || req.query.home === '1' || req.query.skip === '1') {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  } else {
+    res.redirect('/pages/welcome.html');
+  }
+});
+
+app.get('/index.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Subpage route
+app.get('/welcome', (req, res) => {
+  res.sendFile(path.join(__dirname, 'pages', 'welcome.html'));
+});
+
+app.get('/pages/welcome.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'pages', 'welcome.html'));
+});
+
 app.get('/pages/charter.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'pages', 'charter.html'));
 });
