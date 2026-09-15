@@ -20,6 +20,7 @@
 
   <!-- Tailwind Config -->
   <script src="../public/js/tailwind-config.js"></script>
+  <script src="../public/js/welcome-config.js"></script>
 
   <script>
     // Apply saved / system theme before first paint to prevent flash
@@ -568,8 +569,9 @@
 
     // ── 實時倒數計時器邏輯 ──
     (function () {
-      // 目標時間：2026 年 9 月 23 日 19:00:00 (台北時間 UTC+8)
-      var targetDate = new Date('2026-09-23T19:00:00+08:00').getTime();
+      var targetDate = new Date(welcomeEvent.start).getTime();
+      var clubroomDate = new Date(welcomeEvent.clubroomStart).getTime();
+      var endDate = new Date(welcomeEvent.end).getTime();
 
       var elDays    = document.getElementById('cdDays');
       var elHours   = document.getElementById('cdHours');
@@ -596,13 +598,15 @@
           elMinutes.textContent = pad(minutes);
           elSeconds.textContent = pad(seconds);
           elStatus.textContent  = '倒數計時中';
-        } else if (distance > - (3.5 * 60 * 60 * 1000)) {
-          // 活動進行中（3.5 小時內）
+        } else if (now < endDate) {
+          // 依活動流程顯示目前集合地點。
           elDays.textContent    = '00';
           elHours.textContent   = '00';
           elMinutes.textContent = '00';
           elSeconds.textContent = '00';
-          elStatus.textContent  = '活動進行中！歡迎前往 A203';
+          elStatus.textContent  = now < clubroomDate
+            ? '活動進行中！歡迎前往 A203'
+            : '社辦交流中！歡迎前往活動中心 5F 527';
         } else {
           // 活動已圓滿落幕
           elDays.textContent    = '00';

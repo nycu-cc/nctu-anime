@@ -20,6 +20,7 @@
 
   <!-- Tailwind Config -->
   <script src="public/js/tailwind-config.js"></script>
+  <script src="public/js/welcome-config.js"></script>
 
   <script>
     // Apply saved / system theme before first paint to prevent flash
@@ -32,14 +33,33 @@
 
     // 迎新宣傳期間：首次訪問自動導向迎新專頁
     (function () {
+      var now = Date.now();
+      if (now < new Date(welcomeEvent.promotionStart).getTime() || now >= new Date(welcomeEvent.end).getTime()) return;
+
       var params = new URLSearchParams(window.location.search);
-      // 若帶有 ?from=welcome 或 ?skip=1 或已主動點擊進入首頁，則停留在首頁
-      if (params.get('from') === 'welcome' || params.get('skip') === '1' || sessionStorage.getItem('visited_home')) {
-        sessionStorage.setItem('visited_home', '1');
-        return;
+      var visitedHome = false;
+      try {
+        visitedHome = sessionStorage.getItem('visited_home') === '1';
+      } catch (e) {
+        // 儲存空間不可用時，仍保留網址與站內導覽的判斷。
       }
-      if (document.referrer && document.referrer.indexOf('welcome.html') !== -1) {
-        sessionStorage.setItem('visited_home', '1');
+
+      var fromSite = false;
+      if (document.referrer) {
+        try {
+          fromSite = new URL(document.referrer).origin === window.location.origin;
+        } catch (e) {
+          // 無效的來源網址視為外部訪問。
+        }
+      }
+
+      // 區塊定位、站內導覽與明確選擇首頁的訪客保留原目的地。
+      if (window.location.hash || fromSite || visitedHome || params.get('from') === 'welcome' || params.get('home') === '1' || params.get('skip') === '1') {
+        try {
+          sessionStorage.setItem('visited_home', '1');
+        } catch (e) {
+          // 儲存失敗不影響進入首頁。
+        }
         return;
       }
       window.location.replace('pages/welcome.html');

@@ -4,6 +4,7 @@
   "description": "NCTU 動漫社團單頁式網站",
   "main": "server.js",
   "scripts": {
+    "test": "node tests/site-behavior.test.js",
     "start": "node server.js",
     "dev": "nodemon --watch server.js server.js"
   },

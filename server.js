@@ -23,27 +23,15 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(connectLiveReload());
 }
 
-// Serve static files
-// Use the project root as the static root to match GitHub Pages paths
-// (Example: public/js/shared.js -> GET /public/js/shared.js)
-app.use(express.static(path.join(__dirname)));
-
-// Home page - redirect to welcome page during orientation period
-app.get('/', (req, res) => {
-  if (req.query.from === 'welcome' || req.query.home === '1' || req.query.skip === '1') {
-    res.sendFile(path.join(__dirname, 'index.html'));
-  } else {
-    res.redirect('/pages/welcome.html');
-  }
-});
-
-app.get('/index.html', (req, res) => {
+// Both local preview and GitHub Pages use the front-end welcome redirect.
+// URL fragments and sessionStorage are only available in the browser.
+app.get(['/', '/index.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Subpage route
 app.get('/welcome', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pages', 'welcome.html'));
+  res.redirect('/pages/welcome.html');
 });
 
 app.get('/pages/welcome.html', (req, res) => {
@@ -58,7 +46,14 @@ app.get('/pages/officers.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'pages', 'officers.html'));
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
-});
+// Keep explicit routes before static middleware.
+app.use(express.static(path.join(__dirname)));
+
+// Start the server when launched directly; allow isolated HTTP checks on import.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
